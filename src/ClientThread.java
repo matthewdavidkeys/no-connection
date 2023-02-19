@@ -59,6 +59,25 @@ public class ClientThread implements Runnable{
         }
     }
 
+    public void closeConnections(Socket skt, BufferedWriter buffIn, BufferedReader buffOut) {
+        leave();
+        try {
+            if (skt != null) {
+                skt.close();
+            }
+
+            if (buffOut != null) {
+                buffOut.close();
+            }
+
+            if (buffIn != null) {
+                buffIn.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ClientThread(Socket that) {
         InputStreamReader in;
         OutputStreamWriter out;
@@ -78,7 +97,7 @@ public class ClientThread implements Runnable{
         } catch (IOException e) {
             System.out.println("Error: Could not intialise socket stream:\n." + skt);
             e.printStackTrace();
-            return;
+            closeConnections(that, buffIn, buffOut);
         }
     }
 
@@ -90,7 +109,8 @@ public class ClientThread implements Runnable{
                 s = buffOut.readLine();
                 send_all(s);
             } catch (IOException e) {
-                leave();
+                closeConnections(skt, buffIn, buffOut);
+                break;
             }
         }
         // Socket connection dropped
