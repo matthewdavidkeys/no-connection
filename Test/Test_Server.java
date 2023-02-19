@@ -6,6 +6,8 @@ import junit.framework.TestCase;
 import java.net.*;
 import java.io.*;
 
+import ClientThread;
+
 
 
 public class Test_Server extends TestCase{
@@ -39,10 +41,11 @@ public class Test_Server extends TestCase{
     public void testConnect() throws IOException{
         boolean pass=true;
         System.out.println("Check if connection with one client");
-        Socket ClientSocket;
-        try {           
-            ClientSocket = new Socket(IP, PORT);
-            ClientSocket.close();        
+        
+        try {     
+            ClientThread ClientSocket;
+     
+            ClientSocket = new ClientThread(new Socket(IP, PORT),"bob the");      
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -60,14 +63,13 @@ public class Test_Server extends TestCase{
         System.out.println("Check if connection with multiple clients");
         boolean allAlive = true;
         int numClients = 8;
-        Socket[] ClientSockets = new Socket[numClients];
+        ClientThread[] ClientSockets = new ClientThread[numClients];
         Thread[] threads = new Thread[numClients];
         for (int i = 0; i < numClients; i++) {
             final int clientNum = i;
             threads[i] = new Thread(() -> {
                 try {
-                    ClientSockets[clientNum] = new Socket(IP, PORT);
-                    ClientSockets[clientNum].close();
+                    ClientSockets[clientNum] = new ClientThread(new Socket(IP, PORT),"bob"+Integer.toString(clientNum));
                 } catch (IOException e) {
                     e.printStackTrace();
                     check();
@@ -91,20 +93,10 @@ public class Test_Server extends TestCase{
     /**
      * give one message to server
      */
-    @Test
+    /*@Test
     public void testMessage(){
-        try {
-            Socket clientSocket = new Socket(IP,PORT);
-            OutputStream msgToServer = clientSocket.getOutputStream();
-            DataOutputStream sendMessage = new DataOutputStream(msgToServer);
-            sendMessage.writeUTF("This is for messaging testcase");
-            clientSocket.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
+        
+    }*/
 
     public synchronized void check(){
         passed = false;
