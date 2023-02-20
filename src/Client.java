@@ -105,15 +105,20 @@ public class Client {
         Client client;
 
         scanner = new Scanner(System.in);
-
+        /*Recommendation: maybe Niel needs to add a "connect" button nexto username input
+         then we dont have to write a wait function or something then Matthew's life will be easier*/
         System.out.println("Enter nickname: ");
         nickname = scanner.nextLine();
 
         skt = new Socket("localhost", 6666); 
         client = new Client(skt, nickname);
-
-        gui = new GUI(client);
-        gui.setVisible(true);
+        
+        // creates a thread over gui can be changed
+        Thread guiThread = new Thread(() ->{
+            gui = new GUI(client);
+            gui.setVisible(true);
+        });
+        guiThread.start();
         
         client.readMessage();
         //client.messageToThread();
