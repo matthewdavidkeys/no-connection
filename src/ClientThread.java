@@ -81,6 +81,7 @@ public class ClientThread implements Runnable{
     public ClientThread(Socket that) {
         InputStreamReader in;
         OutputStreamWriter out;
+        boolean userExists=false;
 
         this.skt = that;
         try {
@@ -90,10 +91,24 @@ public class ClientThread implements Runnable{
             buffOut = new BufferedReader(in);   
             // get username from client
             user = buffOut.readLine();
-            System.out.println("User \"" + user + "\" has joined chat.");
 
-            send_all("Hi, I've joined the chat.");
-            cThreads.add(this);
+            for (ClientThread cThread : cThreads) {
+                System.out.println(cThread.user);
+                if (cThread.user.equals(user)) {
+                    userExists = true;
+                    break;
+                }
+            }
+            if (userExists){
+                //this won't write back but
+                System.out.println("this username is already chosen");
+                buffIn.write("This username is already chosen");
+                buffIn.flush();
+            } else {
+                System.out.println("User \"" + user + "\" has joined chat.");
+                send_all("Hi, I've joined the chat.");
+                cThreads.add(this);
+            }
         } catch (IOException e) {
             System.out.println("Error: Could not intialise socket stream:\n." + skt);
             e.printStackTrace();
