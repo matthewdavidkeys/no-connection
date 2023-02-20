@@ -8,6 +8,7 @@ public class Client {
     private BufferedWriter buffIn;
     private BufferedReader buffOut;
     private String nickname;
+    private static GUI gui;
 
     //Client constructor
     public Client(Socket skt, String nickname) {
@@ -27,22 +28,25 @@ public class Client {
     }
 
     /*Sends user's nickname and message to thread to be displayed on server */
-    private void messageToThread() {
+    public void messageToThread(String msg) {
         try {
             //send user's nickname to thread handler
             buffIn.write(nickname + "\n");
             buffIn.flush();
 
-            //TODO: Change input from System.in to input text box on GUI
+            /*//TODO: Change input from System.in to input text box on GUI
             Scanner scanner = new Scanner(System.in);
 
             while (!skt.isClosed()) {
                 //read message from input and send on buffered writer
-                String msg = scanner.nextLine();
+                String msg = gui.otherClientMessagesTextArea.getText();
+                //String msg = scanner.nextLine();
                 //User's username already accounted for in ClientThread 
                 buffIn.write(msg + "\n");
                 buffIn.flush();
-            }
+            }*/
+            buffIn.write(msg + "\n");
+            buffIn.flush();
         } catch (IOException e) {
             closeConnections(skt, buffIn, buffOut);
         }
@@ -56,7 +60,9 @@ public class Client {
                 try {
                     msg = buffOut.readLine();
                     //TODO: Change from System.out to GUI text box
-                    System.out.println(msg);
+                    //System.out.println(msg);
+                    gui.otherClientMessagesTextArea.append(msg + "\n");
+
                 } catch (IOException e) {
                     closeConnections(skt, buffIn, buffOut);
                 }
@@ -105,9 +111,12 @@ public class Client {
 
         skt = new Socket("localhost", 6666); 
         client = new Client(skt, nickname);
+
+        gui = new GUI(client);
+        gui.setVisible(true);
         
         client.readMessage();
-        client.messageToThread();
+        //client.messageToThread();
     }
 
 }

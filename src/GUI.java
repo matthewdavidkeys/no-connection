@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,11 +25,13 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 public class GUI extends javax.swing.JFrame {
 
     public String userMessage = "";
+    public Client client;
 
     /**
      * Creates new form GUI
      */
-    public GUI() {
+    public GUI(Client client) {
+        this.client = client;
         initComponents();
 //        onlineClientsScrollPane.setVisible(false);
 //        onlineClientsTextArea.setVisible(false);
@@ -289,7 +293,8 @@ public class GUI extends javax.swing.JFrame {
         userMessage = userMessageTextArea.getText();
         otherClientMessagesTextArea.append("user: " + userMessage + "\n");
         userMessageTextArea.setText("");
-        
+        client.messageToThread(userMessage);
+
         System.out.println(sendMessageButton.getSize().toString());
     }//GEN-LAST:event_sendMessageButtonActionPerformed
 
@@ -330,11 +335,11 @@ public class GUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        /*java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new GUI().setVisible(true);
             }
-        });
+        });*/
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -346,7 +351,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel onlineClientsButtonPane;
     private javax.swing.JPanel otherClientMessagesPanel;
     private javax.swing.JScrollPane otherClientMessagesScrollPane;
-    private javax.swing.JTextArea otherClientMessagesTextArea;
+    public javax.swing.JTextArea otherClientMessagesTextArea;
     private javax.swing.JPanel sendButtonPanel;
     private javax.swing.JButton sendMessageButton;
     private javax.swing.JPanel userMessagePanel;
