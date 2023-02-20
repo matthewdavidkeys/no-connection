@@ -21,18 +21,18 @@ public class ClientThread implements Runnable{
         } 
     }
 
-    private void send_whisper(String message, String user) throws IOException {
+    private void send_whisper(String message, String recipientNick) throws IOException {
         ClientThread recipient = null;
         // find object of recipient
         for (ClientThread cThread : cThreads) {
-            if (cThread.user == user) {
+            if (cThread.user.equals(recipientNick)) {
                 recipient = cThread;
                 break;
             }
         }
         // invalid user
         if (recipient == null) {
-            buffIn.write(user + " is not a valid user.\n");
+            buffIn.write(recipientNick + " is not a valid user.\n");
             buffIn.flush();
             return;
         }
@@ -118,11 +118,17 @@ public class ClientThread implements Runnable{
 
     @Override
     public void run() {
-        String s;
+        String s, whisperUser, restOfMsg;
         while (!skt.isClosed()) {
             try {
                 s = buffOut.readLine();
-                send_all(s);
+                if (s.charAt(0) == '@') {
+                    whisperUser = s.substring(1, s.indexOf(' ')); //gets whisper username
+                    restOfMsg = s.substring(s.indexOf(' ') + 1);
+                    send_whisper(restOfMsg, whisperUser);
+                } else {
+                    send_all(s);
+                }
             } catch (IOException e) {
                 closeConnections(skt, buffIn, buffOut);
                 break;
