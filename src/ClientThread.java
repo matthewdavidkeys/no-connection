@@ -92,7 +92,7 @@ public class ClientThread implements Runnable{
             // get username from client
             user = buffOut.readLine();
 
-            for (ClientThread cThread : cThreads) {
+            /*for (ClientThread cThread : cThreads) {
                 System.out.println(cThread.user);
                 if (cThread.user.equals(user)) {
                     userExists = true;
@@ -108,7 +108,8 @@ public class ClientThread implements Runnable{
                 System.out.println("User \"" + user + "\" has joined chat.");
                 send_all("Hi, I've joined the chat.");
                 cThreads.add(this);
-            }
+            }*/
+            cThreads.add(this);
         } catch (IOException e) {
             System.out.println("Error: Could not intialise socket stream:\n." + skt);
             e.printStackTrace();
@@ -122,7 +123,8 @@ public class ClientThread implements Runnable{
         while (!skt.isClosed()) {
             try {
                 s = buffOut.readLine();
-                if (s.charAt(0) == '@') {
+                System.out.println(s);
+                if ((s != null) && (!s.isBlank()) && (s.charAt(0)) == '@') {
                     whisperUser = s.substring(1, s.indexOf(' ')); //gets whisper username
                     restOfMsg = s.substring(s.indexOf(' ') + 1);
                     send_whisper(restOfMsg, whisperUser);

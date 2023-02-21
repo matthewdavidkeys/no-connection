@@ -265,6 +265,7 @@ public class GUI extends javax.swing.JFrame {
 //onlineClientsPane.setBackground(new Color(0,0,0,0));
         this.revalidate();
         this.repaint();
+    }
 
         //        new Timer(1, new ActionListener() {
         //            @Override
@@ -281,29 +282,22 @@ public class GUI extends javax.swing.JFrame {
 //        public void actionPerformed(ActionEvent ae) {
 //            otherClientsScrollPane.setLocation(otherClientsScrollPane.getX() - 3, 0);
 //            if (otherClientsScrollPane.getX() <= 3) {
-//                ((Timer) ae.getSource()).stop();
-//                //                    System.out.println("Timer stopped");
-//            }
-//        }
-//        }).start();
-    }//GEN-LAST:event_onlineClientsButtonActionPerformed
+//                ((Timer) ae.getSouclientButtonActionPerformed
 
     private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMessageButtonActionPerformed
         // TODO add your handling code here:
         userMessage = userMessageTextArea.getText();
-        otherClientMessagesTextArea.append("user: " + userMessage + "\n");
         userMessageTextArea.setText("");
-        client.messageToThread(userMessage);
+        client.messageToThread(userMessage + "\n");
 
-        System.out.println(sendMessageButton.getSize().toString());
     }//GEN-LAST:event_sendMessageButtonActionPerformed
 
     private void userMessageTextAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userMessageTextAreaKeyTyped
         // TODO add your handling code here:
         if (evt.getKeyChar() == '\n') {
             userMessage = userMessageTextArea.getText();
-            otherClientMessagesTextArea.append("user: " + userMessage);
             userMessageTextArea.setText("");
+            client.messageToThread(userMessage);
         }
     }//GEN-LAST:event_userMessageTextAreaKeyTyped
 

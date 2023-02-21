@@ -22,6 +22,8 @@ public class Client {
             out = new OutputStreamWriter(skt.getOutputStream());
             this.buffIn = new BufferedWriter(out);
             this.buffOut = new BufferedReader(in);
+            buffIn.write(nickname + "\n");
+            buffIn.flush();
         } catch (IOException e) {
             closeConnections(skt, buffIn, buffOut); 
         }   
@@ -31,8 +33,6 @@ public class Client {
     public void messageToThread(String msg) {
         try {
             //send user's nickname to thread handler
-            buffIn.write(nickname + "\n");
-            buffIn.flush();
 
             /*//TODO: Change input from System.in to input text box on GUI
             Scanner scanner = new Scanner(System.in);
@@ -45,7 +45,7 @@ public class Client {
                 buffIn.write(msg + "\n");
                 buffIn.flush();
             }*/
-            buffIn.write(msg + "\n");
+            buffIn.write(msg);
             buffIn.flush();
         } catch (IOException e) {
             closeConnections(skt, buffIn, buffOut);
@@ -116,6 +116,7 @@ public class Client {
         gui.setVisible(true);
         
         client.readMessage();
+
         //client.messageToThread();
     }
 
