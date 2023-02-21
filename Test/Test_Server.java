@@ -6,8 +6,11 @@ import junit.framework.TestCase;
 import java.net.*;
 import java.io.*;
 
-import ClientThread;
 
+/*
+ * Note this test folder uses a slightly modified version of the main src
+ * For example making somethings public or gives a return where there is no need for return
+ */
 
 
 public class Test_Server extends TestCase{
@@ -43,9 +46,9 @@ public class Test_Server extends TestCase{
         System.out.println("Check if connection with one client");
         
         try {     
-            ClientThread ClientSocket;
+            TestClient ClientSocket;
      
-            ClientSocket = new ClientThread(new Socket(IP, PORT),"bob the");      
+            ClientSocket = new TestClient(new Socket(IP, PORT),"bob the Legend");      
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -63,13 +66,13 @@ public class Test_Server extends TestCase{
         System.out.println("Check if connection with multiple clients");
         boolean allAlive = true;
         int numClients = 8;
-        ClientThread[] ClientSockets = new ClientThread[numClients];
+        TestClient[] ClientSockets = new TestClient[numClients];
         Thread[] threads = new Thread[numClients];
         for (int i = 0; i < numClients; i++) {
             final int clientNum = i;
             threads[i] = new Thread(() -> {
                 try {
-                    ClientSockets[clientNum] = new ClientThread(new Socket(IP, PORT),"bob"+Integer.toString(clientNum));
+                    ClientSockets[clientNum] = new TestClient(new Socket(IP, PORT),"bob"+Integer.toString(clientNum));
                 } catch (IOException e) {
                     e.printStackTrace();
                     check();
@@ -93,10 +96,44 @@ public class Test_Server extends TestCase{
     /**
      * give one message to server
      */
-    /*@Test
-    public void testMessage(){
+    @Test
+    public void testMessageToAll() throws IOException{
+        Socket user1 = new Socket(IP,PORT);
         
-    }*/
+        
+        
+        Thread thrd = new Thread(()-> {
+            try {
+                TestClient Messanger;
+                Messanger = new TestClient(user1,"user1");
+                Messanger.messageToThread("@Ping hello");
+                
+            } catch (Exception e) {
+                assertTrue(false);
+                // TODO: handle exception
+                e.printStackTrace();
+            }
+            assertTrue(true);
+        });
+    }
+
+    @Test
+    public void testWhisper() throws IOException{
+        Socket user1 = new Socket(IP,PORT);
+        Thread thrd = new Thread(()-> {
+            try {
+                TestClient Messanger;
+                Messanger = new TestClient(user1,"user1");
+                Messanger.messageToThread("Ping");
+                
+            } catch (Exception e) {
+                assertTrue(false);
+                // TODO: handle exception
+                e.printStackTrace();
+            }
+            assertTrue(true);
+        });
+    }
 
     public synchronized void check(){
         passed = false;
