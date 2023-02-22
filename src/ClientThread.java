@@ -22,7 +22,7 @@ public class ClientThread implements Runnable{
             try {
                 ClientThread cThread = iterator.next();
                 cThread.buffIn.write(user + ": " + message + "\n");
-                cThread.buffIn.flush();
+                cThread.buffIn.flush(); 
             } catch (IOException e) {
                 closeConnections(skt, buffIn, buffOut);
             }
@@ -57,7 +57,7 @@ public class ClientThread implements Runnable{
             recipient.buffIn.write(user + ": " + message + "\n");
             recipient.buffIn.flush();
         } catch (IOException e) {
-            closeConnections(skt, buffIn, buffOut);;
+            closeConnections(skt, buffIn, buffOut);
         } 
     }
 
@@ -164,6 +164,8 @@ public class ClientThread implements Runnable{
         }
         // Socket connection dropped
         try {
+            closeConnections(skt, buffIn, buffOut);
+            System.out.println("USER LEFT\n");
             //buffIn.close();
             //buffOut.close();
         } catch (Exception e) {

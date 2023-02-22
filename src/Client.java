@@ -10,7 +10,9 @@ public class Client {
     private String nickname;
     private static GUI gui;
 
-    //Client constructor
+    /*
+     * Client constructor
+     */
     public Client(Socket skt, String nickname) {
         InputStreamReader in;
         OutputStreamWriter out;
@@ -52,6 +54,10 @@ public class Client {
         }
     }
 
+    /*
+     * Runnable class run by a thread to constantly read
+     * messages from buffer to display to user
+     */
     private class readMessagesRunnable implements Runnable {
         public void run() {
             String msg;
@@ -79,6 +85,10 @@ public class Client {
         thread.start();    
     }
 
+    /*
+     * Closes all sockets and buffers between client and client thread / server
+     * Checks for null to avoid null pointer exceptions
+     */
     public void closeConnections(Socket skt, BufferedWriter buffIn, BufferedReader buffOut) {
         try {
             if (skt != null) {
