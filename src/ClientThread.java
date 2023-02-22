@@ -21,10 +21,8 @@ public class ClientThread implements Runnable{
         for (Iterator <ClientThread> iterator = cThreads.iterator(); iterator.hasNext();) {
             try {
                 ClientThread cThread = iterator.next();
-                if (message != null) {
-                    cThread.buffIn.write(user + ": " + message + "\n");
-                    cThread.buffIn.flush();
-                }
+                cThread.buffIn.write(user + ": " + message + "\n");
+                cThread.buffIn.flush();
                  
             } catch (IOException e) {
                 closeConnections(skt, buffIn, buffOut);
@@ -71,6 +69,10 @@ public class ClientThread implements Runnable{
         try {
             //skt.close();
             cThreads.remove(this);
+
+            for (ClientThread c : cThreads) {
+                System.out.println("Client: " + c);
+            }
             send_all("Goodbye!");
             //buffIn.close();
             //buffOut.close();
@@ -83,16 +85,16 @@ public class ClientThread implements Runnable{
     public void closeConnections(Socket skt, BufferedWriter buffIn, BufferedReader buffOut) {
         leave();
         try {
-            if (skt != null) {
-                skt.close();
-            }
-
             if (buffOut != null) {
                 buffOut.close();
             }
 
             if (buffIn != null) {
                 buffIn.close();
+            }
+
+            if (skt != null) {
+                skt.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -152,7 +154,10 @@ public class ClientThread implements Runnable{
         while (!skt.isClosed()) {
             try {
                 s = buffOut.readLine();
-                System.out.println(s);
+                if (s == null) {
+                    closeConnections(skt, buffIn, buffOut);
+                    break;
+                }
                 if ((s != null) && (!s.isBlank()) && (s.charAt(0)) == '@') {
                     whisperUser = s.substring(1, s.indexOf(' ')); //gets whisper username
                     restOfMsg = s.substring(s.indexOf(' ') + 1);
@@ -167,7 +172,7 @@ public class ClientThread implements Runnable{
         }
         // Socket connection dropped
         try {
-            closeConnections(skt, buffIn, buffOut);
+            //closeConnections(skt, buffIn, buffOut);
             System.out.println("USER LEFT\n");
             //buffIn.close();
             //buffOut.close();
