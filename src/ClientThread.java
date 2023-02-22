@@ -12,6 +12,11 @@ public class ClientThread implements Runnable{
     private Socket skt;
     private String user;
 
+    /**
+     * Procedure that sends message to all clients that are connected to the server.
+     * 
+     * @param message String containing message to be sent.
+     */
     private void send_all(String message) {
         for (Iterator <ClientThread> iterator = cThreads.iterator(); iterator.hasNext();) {
             try {
@@ -21,21 +26,28 @@ public class ClientThread implements Runnable{
             } catch (IOException e) {
                 leave();
             }
-        } 
+        }
     }
 
-    private void send_whisper(String message, String recipientNick) throws IOException {
+    /**
+     * Procedure that sends message to specified client.
+     * 
+     * @param message String containing message to be sent.
+     * @param usr Nickname of client to whisper message to.
+     * @throws IOException Exception if there are any errors with socket.
+     */
+    private void send_whisper(String message, String usr) throws IOException {
         ClientThread recipient = null;
         // find object of recipient
         for (ClientThread cThread : cThreads) {
-            if (cThread.user.equals(recipientNick)) {
+            if (cThread.user.equals(usr)) {
                 recipient = cThread;
                 break;
             }
         }
         // invalid user
         if (recipient == null) {
-            buffIn.write(recipientNick + " is not a valid user.\n");
+            buffIn.write(usr + " is not a valid user.\n");
             buffIn.flush();
             return;
         }
@@ -49,6 +61,9 @@ public class ClientThread implements Runnable{
         } 
     }
 
+    /**
+     * Remove client from Server and close object attributes
+     */
     private void leave() {
         try {
             skt.close();
@@ -82,6 +97,11 @@ public class ClientThread implements Runnable{
         }
     }
 
+    /**
+     * Client constructor that instantiates object.
+     * 
+     * @param that Socket of client/server connection.
+     */
     public ClientThread(Socket that) {
         InputStreamReader in;
         OutputStreamWriter out;
@@ -121,6 +141,9 @@ public class ClientThread implements Runnable{
         }
     }
 
+    /**
+     * Thread that listens for incoming messages from server.
+     */
     @Override
     public void run() {
         String s, whisperUser, restOfMsg;

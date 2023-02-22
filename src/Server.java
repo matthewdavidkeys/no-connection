@@ -1,6 +1,10 @@
 import java.io.*;
 import java.net.*;
-
+/**
+ * Simple server that opens a port and listens for connecting clients.
+ * Idea for structure:
+ * YouTube: Java Socket Programming - Multiple Clients Chat by WittCode
+ */
 public class Server {
     private static ServerSocket sskt;
     private static Socket skt;
