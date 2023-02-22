@@ -38,7 +38,6 @@ public class Test_Server extends TestCase{
     /**
      * Check for basic connection between the server and the client
      * @throws IOException
-     * 
      */
     @Test
     public void testConnect() throws IOException{
@@ -94,7 +93,8 @@ public class Test_Server extends TestCase{
     }
 
     /**
-     * give one message to server
+     * test if client is able to send message
+     * @throws IOException
      */
     @Test
     public void testMessageToAll() throws IOException{
@@ -116,15 +116,20 @@ public class Test_Server extends TestCase{
             assertTrue(true);
         });
     }
-
+    /**
+     * test if client can whisper to an other client
+     * @throws IOException
+     */
     @Test
     public void testWhisper() throws IOException{
-        Socket user1 = new Socket(IP,PORT);
+        Socket user1 = new Socket(IP, PORT);
+        Socket user2 = new Socket(IP, PORT);
+        TestClient Pong = new TestClient(user2, "Ping");
         Thread thrd = new Thread(()-> {
             try {
                 TestClient Messanger;
                 Messanger = new TestClient(user1,"user1");
-                Messanger.messageToThread("Ping");
+                Messanger.messageToThread("@Ping Hello");
                 
             } catch (Exception e) {
                 assertTrue(false);
