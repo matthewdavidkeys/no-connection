@@ -23,7 +23,7 @@ public class ClientThread implements Runnable{
                 cThread.buffIn.write(user + ": " + message + "\n");
                 cThread.buffIn.flush();
             } catch (IOException e) {
-                leave();
+                closeConnections(skt, buffIn, buffOut);
             }
         }
     }
@@ -56,7 +56,7 @@ public class ClientThread implements Runnable{
             recipient.buffIn.write(user + ": " + message + "\n");
             recipient.buffIn.flush();
         } catch (IOException e) {
-            leave();
+            closeConnections(skt, buffIn, buffOut);;
         } 
     }
 
@@ -65,11 +65,11 @@ public class ClientThread implements Runnable{
      */
     private void leave() {
         try {
-            skt.close();
+            //skt.close();
             cThreads.remove(this);
             send_all("Goodbye!");
-            buffIn.close();
-            buffOut.close();
+            //buffIn.close();
+            //buffOut.close();
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -107,6 +107,7 @@ public class ClientThread implements Runnable{
 
         this.skt = that;
         try {
+            cThreads.add(this);
             in = new InputStreamReader(skt.getInputStream());
             out = new OutputStreamWriter(skt.getOutputStream());
             buffIn = new BufferedWriter(out);
@@ -131,7 +132,6 @@ public class ClientThread implements Runnable{
                 send_all("Hi, I've joined the chat.");
                 cThreads.add(this);
             }*/
-            cThreads.add(this);
         } catch (IOException e) {
             System.out.println("Error: Could not intialise socket stream:\n." + skt);
             e.printStackTrace();
