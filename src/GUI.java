@@ -129,7 +129,6 @@ public class GUI extends javax.swing.JFrame {
         sendButtonPanel.setBackground(new java.awt.Color(0, 0, 0));
         sendButtonPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
 
-        sendMessageButton.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\sendMessage.jpg")); // NOI18N
         sendMessageButton.setFocusPainted(false);
         sendMessageButton.setFocusable(false);
         sendMessageButton.addActionListener(new java.awt.event.ActionListener() {
@@ -187,28 +186,21 @@ public class GUI extends javax.swing.JFrame {
         formattingLabel.setBackground(new java.awt.Color(255, 255, 255));
 
         vulnerableGhost2.setBackground(new java.awt.Color(0, 0, 0));
-        vulnerableGhost2.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\vulnerableGhost.jpg")); // NOI18N
 
         vulnerableGhost1.setBackground(new java.awt.Color(0, 0, 0));
         vulnerableGhost1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        vulnerableGhost1.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\vulnerableGhost.jpg")); // NOI18N
 
         inky.setBackground(new java.awt.Color(0, 0, 0));
-        inky.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\inky.jpg")); // NOI18N
 
         pinky.setBackground(new java.awt.Color(0, 0, 0));
-        pinky.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\pinky.jpg")); // NOI18N
 
         blinky.setBackground(new java.awt.Color(0, 0, 0));
-        blinky.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\blinky.jpg")); // NOI18N
         blinky.setText("jLabel1");
 
         clyde.setBackground(new java.awt.Color(0, 0, 0));
-        clyde.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\clyde.jpg")); // NOI18N
         clyde.setText("jLabel1");
 
         cherry.setBackground(new java.awt.Color(0, 0, 0));
-        cherry.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\cherry.jpg")); // NOI18N
 
         jComboBox2.setForeground(new java.awt.Color(255, 102, 0));
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
