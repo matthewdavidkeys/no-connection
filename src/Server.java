@@ -1,6 +1,8 @@
 import java.io.*;
 import java.net.*;
-
+/**
+ * Simple server that opens a port and listens for connecting clients.
+ */
 public class Server {
     private static ServerSocket sskt;
     private static Socket skt;
