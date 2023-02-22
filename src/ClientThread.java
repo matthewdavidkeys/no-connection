@@ -21,8 +21,11 @@ public class ClientThread implements Runnable{
         for (Iterator <ClientThread> iterator = cThreads.iterator(); iterator.hasNext();) {
             try {
                 ClientThread cThread = iterator.next();
-                cThread.buffIn.write(user + ": " + message + "\n");
-                cThread.buffIn.flush(); 
+                if (message != null) {
+                    cThread.buffIn.write(user + ": " + message + "\n");
+                    cThread.buffIn.flush();
+                }
+                 
             } catch (IOException e) {
                 closeConnections(skt, buffIn, buffOut);
             }
