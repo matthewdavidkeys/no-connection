@@ -1,18 +1,21 @@
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ClientThread implements Runnable{
 
-    private static ArrayList<ClientThread> cThreads = new ArrayList<ClientThread>();
+    //private static ArrayList<ClientThread> cThreads = new ArrayList<ClientThread>();
+    private static CopyOnWriteArrayList<ClientThread> cThreads = new CopyOnWriteArrayList<ClientThread>();
     private BufferedReader buffOut;
     private BufferedWriter buffIn;
     private Socket skt;
     private String user;
 
     private void send_all(String message) {
-        for (ClientThread cThread : cThreads) {
+        for (Iterator <ClientThread> iterator = cThreads.iterator(); iterator.hasNext();) {
             try {
+                ClientThread cThread = iterator.next();
                 cThread.buffIn.write(user + ": " + message + "\n");
                 cThread.buffIn.flush();
             } catch (IOException e) {
@@ -49,6 +52,7 @@ public class ClientThread implements Runnable{
     private void leave() {
         try {
             skt.close();
+            System.out.println("Error not here yet\n");
             cThreads.remove(this);
             send_all("Goodbye!");
             buffIn.close();
