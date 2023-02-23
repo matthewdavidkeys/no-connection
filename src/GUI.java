@@ -20,12 +20,10 @@ public class GUI extends javax.swing.JFrame {
 
         sendMessageButton.setOpaque(false);
         sendMessageButton.setContentAreaFilled(false);
-        
-        mainPanel.setVisible(false);
-        errorMessageLabel.setVisible(false);
 
-	  String imageFolder = System.getProperty("user.dir") + "/../Images";
-	  sendMessageButton.setIcon(new javax.swing.ImageIcon(imageFolder + "/sendMessage.jpg"));
+	String imageFolder = System.getProperty("user.dir") + "/../Images";
+//        String imageFolder = System.getProperty("user.dir") + "/Images";
+	sendMessageButton.setIcon(new javax.swing.ImageIcon(imageFolder + "/sendMessage.jpg"));
         vulnerableGhost1.setIcon(new javax.swing.ImageIcon(imageFolder + "/vulnerableGhost.jpg"));
         vulnerableGhost2.setIcon(new javax.swing.ImageIcon(imageFolder + "/vulnerableGhost.jpg"));
         cherry.setIcon(new javax.swing.ImageIcon(imageFolder + "/cherry.jpg"));
@@ -44,18 +42,6 @@ public class GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         GUILayeredPane = new javax.swing.JLayeredPane();
-        startPanel = new javax.swing.JPanel();
-        nicknameTextField = new javax.swing.JTextField();
-        portTextField = new javax.swing.JTextField();
-        nicknameStartPanel = new javax.swing.JPanel();
-        nicknameStartLabel = new javax.swing.JLabel();
-        portStartPanel = new javax.swing.JPanel();
-        portStartLabel = new javax.swing.JLabel();
-        cancelButtonPanel = new javax.swing.JPanel();
-        cancelButton = new javax.swing.JButton();
-        connectBbuttonPanel = new javax.swing.JPanel();
-        connectButton = new javax.swing.JButton();
-        errorMessageLabel = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
         nicknamePane = new javax.swing.JPanel();
         nicknameLabel = new javax.swing.JLabel();
@@ -80,150 +66,6 @@ public class GUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         GUILayeredPane.setBackground(new java.awt.Color(255, 255, 255));
-
-        startPanel.setBackground(new java.awt.Color(0, 0, 0));
-
-        nicknameTextField.setBackground(new java.awt.Color(0, 0, 0));
-        nicknameTextField.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        nicknameTextField.setForeground(new java.awt.Color(255, 255, 255));
-        nicknameTextField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-        nicknameTextField.setCaretColor(new java.awt.Color(255, 255, 255));
-
-        portTextField.setBackground(new java.awt.Color(0, 0, 0));
-        portTextField.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        portTextField.setForeground(new java.awt.Color(255, 255, 255));
-        portTextField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-        portTextField.setCaretColor(new java.awt.Color(255, 255, 255));
-
-        nicknameStartPanel.setBackground(new java.awt.Color(0, 0, 0));
-        nicknameStartPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-
-        nicknameStartLabel.setBackground(new java.awt.Color(0, 0, 0));
-        nicknameStartLabel.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        nicknameStartLabel.setForeground(new java.awt.Color(255, 255, 255));
-        nicknameStartLabel.setText("Nickname:");
-
-        javax.swing.GroupLayout nicknameStartPanelLayout = new javax.swing.GroupLayout(nicknameStartPanel);
-        nicknameStartPanel.setLayout(nicknameStartPanelLayout);
-        nicknameStartPanelLayout.setHorizontalGroup(
-            nicknameStartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(nicknameStartLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        nicknameStartPanelLayout.setVerticalGroup(
-            nicknameStartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(nicknameStartLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
-        );
-
-        portStartPanel.setBackground(new java.awt.Color(0, 0, 0));
-        portStartPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-
-        portStartLabel.setBackground(new java.awt.Color(0, 0, 0));
-        portStartLabel.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        portStartLabel.setForeground(new java.awt.Color(255, 255, 255));
-        portStartLabel.setText("Port:");
-
-        javax.swing.GroupLayout portStartPanelLayout = new javax.swing.GroupLayout(portStartPanel);
-        portStartPanel.setLayout(portStartPanelLayout);
-        portStartPanelLayout.setHorizontalGroup(
-            portStartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(portStartLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        portStartPanelLayout.setVerticalGroup(
-            portStartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(portStartLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
-        );
-
-        cancelButtonPanel.setBackground(new java.awt.Color(0, 0, 0));
-        cancelButtonPanel.setForeground(new java.awt.Color(255, 255, 255));
-
-        cancelButton.setBackground(new java.awt.Color(0, 0, 0));
-        cancelButton.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        cancelButton.setForeground(new java.awt.Color(255, 255, 255));
-        cancelButton.setText("Cancel");
-        cancelButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-
-        javax.swing.GroupLayout cancelButtonPanelLayout = new javax.swing.GroupLayout(cancelButtonPanel);
-        cancelButtonPanel.setLayout(cancelButtonPanelLayout);
-        cancelButtonPanelLayout.setHorizontalGroup(
-            cancelButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(cancelButton, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-        );
-        cancelButtonPanelLayout.setVerticalGroup(
-            cancelButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(cancelButton)
-        );
-
-        connectBbuttonPanel.setBackground(new java.awt.Color(0, 0, 0));
-        connectBbuttonPanel.setForeground(new java.awt.Color(255, 255, 255));
-
-        connectButton.setBackground(new java.awt.Color(0, 0, 0));
-        connectButton.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        connectButton.setForeground(new java.awt.Color(255, 255, 255));
-        connectButton.setText("Connect");
-        connectButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-        connectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                connectButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout connectBbuttonPanelLayout = new javax.swing.GroupLayout(connectBbuttonPanel);
-        connectBbuttonPanel.setLayout(connectBbuttonPanelLayout);
-        connectBbuttonPanelLayout.setHorizontalGroup(
-            connectBbuttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-        );
-        connectBbuttonPanelLayout.setVerticalGroup(
-            connectBbuttonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(connectButton)
-        );
-
-        errorMessageLabel.setBackground(new java.awt.Color(255, 255, 255));
-        errorMessageLabel.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        errorMessageLabel.setForeground(new java.awt.Color(255, 255, 255));
-        errorMessageLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-
-        javax.swing.GroupLayout startPanelLayout = new javax.swing.GroupLayout(startPanel);
-        startPanel.setLayout(startPanelLayout);
-        startPanelLayout.setHorizontalGroup(
-            startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(startPanelLayout.createSequentialGroup()
-                .addGap(182, 182, 182)
-                .addGroup(startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(startPanelLayout.createSequentialGroup()
-                        .addComponent(connectBbuttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(366, 366, 366)
-                        .addComponent(cancelButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(startPanelLayout.createSequentialGroup()
-                        .addGroup(startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(nicknameStartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(portStartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(portTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
-                            .addComponent(nicknameTextField)
-                            .addComponent(errorMessageLabel))))
-                .addContainerGap(123, Short.MAX_VALUE))
-        );
-        startPanelLayout.setVerticalGroup(
-            startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(startPanelLayout.createSequentialGroup()
-                .addGap(229, 229, 229)
-                .addGroup(startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nicknameStartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nicknameTextField))
-                .addGap(41, 41, 41)
-                .addGroup(startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(portStartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(portTextField))
-                .addGap(69, 69, 69)
-                .addGroup(startPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cancelButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(connectBbuttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addComponent(errorMessageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(212, Short.MAX_VALUE))
-        );
 
         mainPanel.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -414,7 +256,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(vulnerableGhost1)
                         .addGap(183, 183, 183)
                         .addComponent(cherry)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
                         .addComponent(inky)
                         .addGap(237, 237, 237))))
         );
@@ -463,7 +305,6 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
-        GUILayeredPane.setLayer(startPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
         GUILayeredPane.setLayer(mainPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout GUILayeredPaneLayout = new javax.swing.GroupLayout(GUILayeredPane);
@@ -471,14 +312,10 @@ public class GUI extends javax.swing.JFrame {
         GUILayeredPaneLayout.setHorizontalGroup(
             GUILayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(GUILayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(startPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         GUILayeredPaneLayout.setVerticalGroup(
             GUILayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(GUILayeredPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(startPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -520,22 +357,6 @@ public class GUI extends javax.swing.JFrame {
         userMessageTextArea.setText("@" + jComboBox2.getSelectedItem() + " ");
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
-    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-        if (!nicknameTextField.getText().equals("") && !portTextField.getText().equals("")) {
-            nickname = nicknameTextField.getText();
-            port = portTextField.getText();
-            nicknameLabel.setText(nicknameTextField.getText());
-            startPanel.setVisible(false);
-            mainPanel.setVisible(true);
-        } else if (nicknameTextField.getText().equals("")) {
-            errorMessageLabel.setText("Please enter a valid nickname");
-            errorMessageLabel.setVisible(true);
-        } else {
-            errorMessageLabel.setText("Please enter a valid port number");
-            errorMessageLabel.setVisible(true);
-        }
-    }//GEN-LAST:event_connectButtonActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -571,32 +392,20 @@ public class GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane GUILayeredPane;
     private javax.swing.JLabel blinky;
-    private javax.swing.JButton cancelButton;
-    private javax.swing.JPanel cancelButtonPanel;
     private javax.swing.JLabel cherry;
     private javax.swing.JLabel clyde;
-    private javax.swing.JPanel connectBbuttonPanel;
-    private javax.swing.JButton connectButton;
-    private javax.swing.JLabel errorMessageLabel;
     private javax.swing.JLabel formattingLabel;
     private javax.swing.JLabel inky;
     public javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel nicknameLabel;
     private javax.swing.JPanel nicknamePane;
-    private javax.swing.JLabel nicknameStartLabel;
-    private javax.swing.JPanel nicknameStartPanel;
-    public javax.swing.JTextField nicknameTextField;
     private javax.swing.JPanel otherClientMessagesPanel;
     private javax.swing.JScrollPane otherClientMessagesScrollPane;
     public javax.swing.JTextArea otherClientMessagesTextArea;
     private javax.swing.JLabel pinky;
-    private javax.swing.JLabel portStartLabel;
-    private javax.swing.JPanel portStartPanel;
-    public javax.swing.JTextField portTextField;
     private javax.swing.JPanel sendButtonPanel;
     private javax.swing.JButton sendMessageButton;
-    private javax.swing.JPanel startPanel;
     private javax.swing.JPanel userMessagePanel;
     private javax.swing.JScrollPane userMessageScrollPane;
     private javax.swing.JTextArea userMessageTextArea;
