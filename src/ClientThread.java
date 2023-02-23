@@ -21,7 +21,8 @@ public class ClientThread implements Runnable{
         for (Iterator <ClientThread> iterator = cThreads.iterator(); iterator.hasNext();) {
             try {
                 ClientThread cThread = iterator.next();
-                cThread.buffIn.write(user + ": " + message + "\n");
+                //cThread.buffIn.write(user + ": " + message + "\n");
+                cThread.buffIn.write(message + "\n");
                 cThread.buffIn.flush();
                  
             } catch (IOException e) {
@@ -53,8 +54,10 @@ public class ClientThread implements Runnable{
             return;
         }
 
-        // send to recipient
+        // send to recipient and to yourself so your message displays too
         try {
+            buffIn.write(user + ": " + message + "\n");
+            buffIn.flush();
             recipient.buffIn.write(user + ": " + message + "\n");
             recipient.buffIn.flush();
         } catch (IOException e) {
@@ -67,15 +70,8 @@ public class ClientThread implements Runnable{
      */
     private void leave() {
         try {
-            //skt.close();
             cThreads.remove(this);
-
-            for (ClientThread c : cThreads) {
-                System.out.println("Client: " + c);
-            }
-            send_all("Goodbye!");
-            //buffIn.close();
-            //buffOut.close();
+            send_all("<SERVER>: " + user + " has left the chat");
 
         } catch (Exception e) {
             // TODO: handle exception
@@ -85,6 +81,9 @@ public class ClientThread implements Runnable{
     public void closeConnections(Socket skt, BufferedWriter buffIn, BufferedReader buffOut) {
         leave();
         try {
+            if (skt != null) {
+                skt.close();
+            }
             if (buffOut != null) {
                 buffOut.close();
             }
@@ -93,9 +92,6 @@ public class ClientThread implements Runnable{
                 buffIn.close();
             }
 
-            if (skt != null) {
-                skt.close();
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -154,31 +150,25 @@ public class ClientThread implements Runnable{
         while (!skt.isClosed()) {
             try {
                 s = buffOut.readLine();
+
+                //socket connection dropped
                 if (s == null) {
                     closeConnections(skt, buffIn, buffOut);
                     break;
                 }
+
                 if ((s != null) && (!s.isBlank()) && (s.charAt(0)) == '@') {
                     whisperUser = s.substring(1, s.indexOf(' ')); //gets whisper username
                     restOfMsg = s.substring(s.indexOf(' ') + 1);
                     send_whisper(restOfMsg, whisperUser);
                 } else {
-                    send_all(s);
+                    send_all(user + ": " + s);
                 }
+                
             } catch (IOException e) {
                 closeConnections(skt, buffIn, buffOut);
                 break;
             }
         }
-        // Socket connection dropped
-        try {
-            //closeConnections(skt, buffIn, buffOut);
-            System.out.println("USER LEFT\n");
-            //buffIn.close();
-            //buffOut.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
     }
 }

@@ -34,19 +34,6 @@ public class Client {
     /*Sends user's nickname and message to thread to be displayed on server */
     public void messageToThread(String msg) {
         try {
-            //send user's nickname to thread handler
-
-            /*//TODO: Change input from System.in to input text box on GUI
-            Scanner scanner = new Scanner(System.in);
-
-            while (!skt.isClosed()) {
-                //read message from input and send on buffered writer
-                String msg = gui.otherClientMessagesTextArea.getText();
-                //String msg = scanner.nextLine();
-                //User's username already accounted for in ClientThread 
-                buffIn.write(msg + "\n");
-                buffIn.flush();
-            }*/
             buffIn.write(msg);
             buffIn.flush();
         } catch (IOException e) {
@@ -65,8 +52,6 @@ public class Client {
             while (!skt.isClosed()) {
                 try {
                     msg = buffOut.readLine();
-                    //TODO: Change from System.out to GUI text box
-                    //System.out.println(msg);
                     gui.otherClientMessagesTextArea.append(msg + "\n");
 
                 } catch (IOException e) {
@@ -111,6 +96,8 @@ public class Client {
         //TODO: Change from System.in to GUI input text box
         Scanner scanner;
         String nickname;
+        String host;
+        int port;
         Socket skt;
         Client client;
 
@@ -120,17 +107,27 @@ public class Client {
         System.out.println("Enter nickname: ");
         nickname = scanner.nextLine();
 
-        skt = new Socket("localhost", 6666); 
-        client = new Client(skt, nickname);
+        System.out.println("Enter IP: ");
+        host = scanner.nextLine();
+
+        System.out.println("Enter port: ");
+        port = Integer.parseInt(scanner.nextLine());
+        try {
+            skt = new Socket(host, port); 
+            client = new Client(skt, nickname);
         
-        // creates a thread over gui can be changed
-        Thread guiThread = new Thread(() ->{
-            gui = new GUI(client);
-            gui.setVisible(true);
-        });
-        guiThread.start();
-        
-        client.readMessage();
+            // creates a thread over gui can be changed
+            Thread guiThread = new Thread(() ->{
+                gui = new GUI(client);
+                gui.setVisible(true);
+            });
+            guiThread.start();
+            
+            client.readMessage();
+        } catch (Exception e) {
+            System.out.println("Incorrect IP or port...");
+            System.exit(1);
+        }
 
         //client.messageToThread();
     }
