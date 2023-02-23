@@ -586,7 +586,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel nicknamePane;
     private javax.swing.JLabel nicknameStartLabel;
     private javax.swing.JPanel nicknameStartPanel;
-    private javax.swing.JTextField nicknameTextField;
+    public javax.swing.JTextField nicknameTextField;
     private javax.swing.JPanel otherClientMessagesPanel;
     private javax.swing.JScrollPane otherClientMessagesScrollPane;
     public javax.swing.JTextArea otherClientMessagesTextArea;
