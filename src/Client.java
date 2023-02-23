@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Client {
 
@@ -52,9 +53,16 @@ public class Client {
             while (!skt.isClosed()) {
                 try {
                     msg = buffOut.readLine();
+                    if (msg == null) {
+                        gui.otherClientMessagesTextArea.append("<SERVER ERROR>: Server host program terminated/crashed.\n");
+                        TimeUnit.SECONDS.sleep(3);
+                        closeConnections(skt, buffIn, buffOut);
+                        System.exit(0);
+                        break;
+                    }
                     gui.otherClientMessagesTextArea.append(msg + "\n");
 
-                } catch (IOException e) {
+                } catch (IOException | InterruptedException e) {
                     closeConnections(skt, buffIn, buffOut);
                 }
             }
