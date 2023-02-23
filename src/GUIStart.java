@@ -1,3 +1,4 @@
+import java.net.*;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -224,11 +225,24 @@ public class GUIStart extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-        // TODO add your handling code here:
         if (!nicknameTextField.getText().equals("") && !portTextField.getText().equals("") && !IPTextField.getText().equals("")) {
             nickname = nicknameTextField.getText();
             port = portTextField.getText();
             IP = IPTextField.getText();
+            GUI gui;
+
+            try {
+                Socket skt = new Socket(IP, Integer.parseInt(port)); 
+                Client client = new Client(skt, nickname);
+                gui = new GUI(client);
+                gui.setVisible(true);
+                this.setVisible(false);
+                client.setGUI(gui);   
+                client.readMessage();
+            } catch (Exception e) {
+                System.out.println("Incorrect IP or port...");
+                System.exit(1);
+            }
         } else if (nicknameTextField.getText().equals("")) {
             errorMessageLabel.setText("Please enter a valid nickname");
             errorMessageLabel.setVisible(true);

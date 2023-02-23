@@ -92,44 +92,22 @@ public class Client {
         }
     }
 
-    public static void main(String[] args) throws UnknownHostException, IOException {
-        //TODO: Change from System.in to GUI input text box
-        Scanner scanner;
-        String nickname;
-        String host;
-        int port;
-        Socket skt;
-        Client client;
-
-        scanner = new Scanner(System.in);
-        /*Recommendation: maybe Niel needs to add a "connect" button nexto username input
-         then we dont have to write a wait function or something then Matthew's life will be easier*/
-        System.out.println("Enter nickname: ");
-        nickname = scanner.nextLine();
-
-        System.out.println("Enter IP: ");
-        host = scanner.nextLine();
-
-        System.out.println("Enter port: ");
-        port = Integer.parseInt(scanner.nextLine());
+    /*
+     * Creates login GUI
+     * Client and socket created within GUIStart.java
+     */
+    public static void main(String[] args){
+        GUIStart startGUI;
         try {
-            skt = new Socket(host, port); 
-            client = new Client(skt, nickname);
-        
-            // creates a thread over gui can be changed
-            Thread guiThread = new Thread(() ->{
-                gui = new GUI(client);
-                gui.setVisible(true);
-            });
-            guiThread.start();
-            
-            client.readMessage();
+            startGUI = new GUIStart();
+            startGUI.setVisible(true);
         } catch (Exception e) {
             System.out.println("Incorrect IP or port...");
             System.exit(1);
         }
-
-        //client.messageToThread();
     }
 
+    public void setGUI(GUI gui) {
+        this.gui = gui;
+    }
 }
