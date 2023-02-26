@@ -24,6 +24,7 @@ public class Server {
                 client = new ClientThread(skt);
                 Thread cThread = new Thread(client);
                 cThread.start();
+                client.send_all("<SERVER>: " + client.getNickname() + " has joined the chat");
 
            } catch (Exception e) {
                 e.getStackTrace();

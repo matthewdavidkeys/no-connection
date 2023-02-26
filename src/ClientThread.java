@@ -1,7 +1,8 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.*;
+import javax.swing.*;
 
 public class ClientThread implements Runnable{
 
@@ -13,11 +14,19 @@ public class ClientThread implements Runnable{
     private String user;
 
     /**
+     * Procedure that returns client's nickname
+     * @return String containing client's nickname
+     */
+    public String getNickname() {
+        return this.user;
+    }
+
+    /**
      * Procedure that sends message to all clients that are connected to the server.
      * 
      * @param message String containing message to be sent.
      */
-    private void send_all(String message) {
+    public void send_all(String message) {
         for (Iterator <ClientThread> iterator = cThreads.iterator(); iterator.hasNext();) {
             try {
                 ClientThread cThread = iterator.next();

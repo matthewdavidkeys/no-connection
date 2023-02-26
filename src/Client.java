@@ -1,7 +1,8 @@
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import javax.swing.*;
 
 public class Client {
 
@@ -118,4 +119,5 @@ public class Client {
     public void setGUI(GUI gui) {
         this.gui = gui;
     }
+
 }

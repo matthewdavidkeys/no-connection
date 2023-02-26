@@ -61,7 +61,7 @@ public class GUI extends javax.swing.JFrame {
         blinky = new javax.swing.JLabel();
         clyde = new javax.swing.JLabel();
         cherry = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        userComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -211,10 +211,10 @@ public class GUI extends javax.swing.JFrame {
         cherry.setBackground(new java.awt.Color(0, 0, 0));
         cherry.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\cherry.jpg")); // NOI18N
 
-        jComboBox2.setForeground(new java.awt.Color(255, 102, 0));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        userComboBox.setForeground(new java.awt.Color(255, 102, 0));
+        userComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"ONLINE USERS"}));
+        userComboBox.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
+        userComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
             }
@@ -236,7 +236,7 @@ public class GUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(clyde, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(80, 80, 80)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(userComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(otherClientMessagesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -282,7 +282,7 @@ public class GUI extends javax.swing.JFrame {
                                 .addGap(1, 1, 1)
                                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(pinky)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(userComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(clyde))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,7 +354,7 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_userMessageTextAreaKeyTyped
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        userMessageTextArea.setText("@" + jComboBox2.getSelectedItem() + " ");
+        userMessageTextArea.setText("@" + userComboBox.getSelectedItem() + " ");
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     /**
@@ -396,7 +396,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel clyde;
     private javax.swing.JLabel formattingLabel;
     private javax.swing.JLabel inky;
-    public javax.swing.JComboBox<String> jComboBox2;
+    public javax.swing.JComboBox<String> userComboBox;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel nicknameLabel;
     private javax.swing.JPanel nicknamePane;

@@ -235,10 +235,10 @@ public class GUIStart extends javax.swing.JFrame {
                 Socket skt = new Socket(IP, Integer.parseInt(port)); 
                 Client client = new Client(skt, nickname);
                 gui = new GUI(client);
+                client.setGUI(gui);  
+                client.readMessage(); 
                 gui.setVisible(true);
                 this.setVisible(false);
-                client.setGUI(gui);   
-                client.readMessage();
             } catch (Exception e) {
                 System.out.println("Incorrect IP or port...");
                 System.exit(1);
