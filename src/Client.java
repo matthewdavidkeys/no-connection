@@ -60,7 +60,7 @@ public class Client {
                         closeConnections(skt, buffIn, buffOut);
                         System.exit(0);
                         break;
-                    }
+                    }                 
                     gui.otherClientMessagesTextArea.append(msg + "\n");
 
                 } catch (IOException | InterruptedException e) {

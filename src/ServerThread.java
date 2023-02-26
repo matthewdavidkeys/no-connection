@@ -2,14 +2,13 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
-import javax.swing.*;
 
 /**
  * Part of server. Handles threading and client connections/messages.
  */
 public class ServerThread implements Runnable{
 
-    private static CopyOnWriteArrayList<ServerThread> threadList = new CopyOnWriteArrayList<ServerThread>();
+    private CopyOnWriteArrayList<ServerThread> threadList;
     private BufferedReader buffOut;
     private BufferedWriter buffIn;
     private Socket skt;
@@ -60,17 +59,18 @@ public class ServerThread implements Runnable{
         // invalid user
         if (recipient == null) {
             buffIn.write("<SERVER>: User \"" + usr + "\" does not exist.\n");
-            buffIn.write("<SERVER>: Please consult user list at the top right for availible users.\n");
+            buffIn.write("<SERVER>: Please use the command \"/online\" to see list of users.\n");
             buffIn.flush();
             return;
         }
-
         // send to recipient and to yourself so your message displays too
         try {
+
             buffIn.write(user + " [whisper]: " + message + "\n");
             buffIn.flush();
             recipient.buffIn.write(user + " [whisper]: " + message + "\n");
             recipient.buffIn.flush();
+
         } catch (IOException e) {
             closeConnections(skt, buffIn, buffOut);
         } 
@@ -89,18 +89,36 @@ public class ServerThread implements Runnable{
         send_all("<SERVER>: \"" + user + "\" has left the chat");
         // Close all object instances relating to disconnected user.
         try {
-            if (skt != null) {
-                skt.close();
-            }
-            if (buffOut != null) {
-                buffOut.close();
-            }
 
-            if (buffIn != null) {
+            if (skt != null) 
+                skt.close();
+            if (buffOut != null)
+                buffOut.close();
+            if (buffIn != null) 
                 buffIn.close();
-            }
 
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Send the number of clients onto the buffer,
+     * then follow with list of client usernames.
+     */
+    public void getClients() {
+        try {
+
+            // push number of clients onto buffer
+            this.buffIn.write(threadList.size() + "\n");
+            this.buffIn.flush();
+            // push list of clients onto buffer
+            for (ServerThread s: threadList) {
+                this.buffIn.write(s.user + "\n");
+                this.buffIn.flush();
+            }   
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -110,12 +128,12 @@ public class ServerThread implements Runnable{
      * 
      * @param that Socket of client/server connection.
      */
-    public ServerThread(Socket that) {
+    public ServerThread(Socket that, CopyOnWriteArrayList<ServerThread> list) {
         InputStreamReader in;
         OutputStreamWriter out;
 
         this.skt = that;
-        threadList.add(this);
+        threadList = list;
         try {
 
             in = new InputStreamReader(skt.getInputStream());
@@ -133,15 +151,15 @@ public class ServerThread implements Runnable{
     }
 
     /**
-     * Thread that listens for incoming messages from server.
+     * Thread that listens for incoming messages from clients.
      */
     @Override
     public void run() {
         String s, whisperUser, restOfMsg;
-        while (!skt.isClosed()) {
+        while (true) {
             try {
-                s = buffOut.readLine();
 
+                s = buffOut.readLine();
                 // socket connection dropped
                 if (s == null) {
                     closeConnections(skt, buffIn, buffOut);
@@ -159,7 +177,17 @@ public class ServerThread implements Runnable{
                     restOfMsg = s.substring(s.indexOf(' ') + 1);
                     send_whisper(restOfMsg, whisperUser);
 
+                } else if (s.equals("/online")) {
+                    this.buffIn.write("<SERVER>: #List of Clients Online#\n");
+                    this.buffIn.flush();
+                    // send list of clients to requesting client
+                    getClients();
+                    this.buffIn.write("<SERVER:> ################\n");
+                    this.buffIn.flush();
+                    continue;
+
                 } else {
+                    // send global message
                     send_all(user + ": " + s);
                 }
                 

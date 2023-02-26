@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Simple server that opens a port and listens for connecting clients.
  * Idea for structure:
@@ -9,6 +10,16 @@ public class Server {
     private static ServerSocket sskt;
     private static Socket skt;
     private static final int portNum = 6666;
+    private static CopyOnWriteArrayList<ServerThread> threadList = new CopyOnWriteArrayList<ServerThread>();
+
+    /**
+     * Get the list of clients (ServerThreads) currently connected to the server.
+     * 
+     * @return List of ServerThreads
+     */
+    public static CopyOnWriteArrayList<ServerThread> getClientList() {
+        return threadList;
+    }
 
     public static void main(String[] args) throws IOException {
         ServerThread client;        
@@ -17,19 +28,21 @@ public class Server {
         sskt = new ServerSocket(portNum);
         System.out.println("Server started on port: " + portNum);
         
-        while (!sskt.isClosed()) {
+        while (true) {
            try {
+
+                // wait for someone to connect
                 skt = sskt.accept();
                 System.out.println("Client connected.");
-                client = new ServerThread(skt);
-                Thread cThread = new Thread(client);
-                cThread.start();
+                client = new ServerThread(skt, threadList);
+                threadList.add(client);
+                Thread clientThread = new Thread(client);
+                clientThread.start();
                 client.send_all("<SERVER>: " + client.getNickname() + " has joined the chat");
 
            } catch (Exception e) {
-                e.getStackTrace();
+                break;
            } 
         }
-        System.out.println("Server terminated.");
     }
 }
