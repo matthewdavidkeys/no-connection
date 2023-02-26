@@ -11,7 +11,7 @@ public class Server {
     private static final int portNum = 6666;
 
     public static void main(String[] args) throws IOException {
-        ClientThread client;        
+        ServerThread client;        
 
         // listen for connecting clients while active
         sskt = new ServerSocket(portNum);
@@ -21,7 +21,7 @@ public class Server {
            try {
                 skt = sskt.accept();
                 System.out.println("Client connected.");
-                client = new ClientThread(skt);
+                client = new ServerThread(skt);
                 Thread cThread = new Thread(client);
                 cThread.start();
                 client.send_all("<SERVER>: " + client.getNickname() + " has joined the chat");

@@ -4,10 +4,12 @@ import java.util.*;
 import java.util.concurrent.*;
 import javax.swing.*;
 
-public class ClientThread implements Runnable{
+/**
+ * Part of server. Handles threading and client connections/messages.
+ */
+public class ServerThread implements Runnable{
 
-    //private static ArrayList<ClientThread> cThreads = new ArrayList<ClientThread>();
-    private static CopyOnWriteArrayList<ClientThread> cThreads = new CopyOnWriteArrayList<ClientThread>();
+    private static CopyOnWriteArrayList<ServerThread> threadList = new CopyOnWriteArrayList<ServerThread>();
     private BufferedReader buffOut;
     private BufferedWriter buffIn;
     private Socket skt;
@@ -27,10 +29,9 @@ public class ClientThread implements Runnable{
      * @param message String containing message to be sent.
      */
     public void send_all(String message) {
-        for (Iterator <ClientThread> iterator = cThreads.iterator(); iterator.hasNext();) {
+        for (Iterator <ServerThread> iterator = threadList.iterator(); iterator.hasNext();) {
             try {
-                ClientThread cThread = iterator.next();
-                //cThread.buffIn.write(user + ": " + message + "\n");
+                ServerThread cThread = iterator.next();
                 cThread.buffIn.write(message + "\n");
                 cThread.buffIn.flush();
                  
@@ -48,9 +49,9 @@ public class ClientThread implements Runnable{
      * @throws IOException Exception if there are any errors with socket.
      */
     private void send_whisper(String message, String usr) throws IOException {
-        ClientThread recipient = null;
+        ServerThread recipient = null;
         // find object of recipient
-        for (ClientThread cThread : cThreads) {
+        for (ServerThread cThread : threadList) {
             if (cThread.user.equals(usr)) {
                 recipient = cThread;
                 break;
@@ -58,16 +59,17 @@ public class ClientThread implements Runnable{
         }
         // invalid user
         if (recipient == null) {
-            buffIn.write(usr + " is not a valid user.\n");
+            buffIn.write("<SERVER>: User \"" + usr + "\" does not exist.\n");
+            buffIn.write("<SERVER>: Please consult user list at the top right for availible users.\n");
             buffIn.flush();
             return;
         }
 
         // send to recipient and to yourself so your message displays too
         try {
-            buffIn.write(user + ": " + message + "\n");
+            buffIn.write(user + " [whisper]: " + message + "\n");
             buffIn.flush();
-            recipient.buffIn.write(user + ": " + message + "\n");
+            recipient.buffIn.write(user + " [whisper]: " + message + "\n");
             recipient.buffIn.flush();
         } catch (IOException e) {
             closeConnections(skt, buffIn, buffOut);
@@ -75,20 +77,17 @@ public class ClientThread implements Runnable{
     }
 
     /**
-     * Remove client from Server and close object attributes
+     * Remove client from Server and close object attributes.
+     * 
+     * @param skt Socket of client/server connection.
+     * @param buffIn Buffer for writing outgoing messages to client side.
+     * @param buffOut Buffer for reading messages from incoming server side.
      */
-    private void leave() {
-        try {
-            cThreads.remove(this);
-            send_all("<SERVER>: " + user + " has left the chat");
-
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-    }
-
     public void closeConnections(Socket skt, BufferedWriter buffIn, BufferedReader buffOut) {
-        leave();
+        // Remove user from list of connected clients.
+        threadList.remove(this);
+        send_all("<SERVER>: \"" + user + "\" has left the chat");
+        // Close all object instances relating to disconnected user.
         try {
             if (skt != null) {
                 skt.close();
@@ -111,14 +110,14 @@ public class ClientThread implements Runnable{
      * 
      * @param that Socket of client/server connection.
      */
-    public ClientThread(Socket that) {
+    public ServerThread(Socket that) {
         InputStreamReader in;
         OutputStreamWriter out;
-        boolean userExists=false;
 
         this.skt = that;
+        threadList.add(this);
         try {
-            cThreads.add(this);
+
             in = new InputStreamReader(skt.getInputStream());
             out = new OutputStreamWriter(skt.getOutputStream());
             buffIn = new BufferedWriter(out);
@@ -126,23 +125,6 @@ public class ClientThread implements Runnable{
             // get username from client
             user = buffOut.readLine();
 
-            /*for (ClientThread cThread : cThreads) {
-                System.out.println(cThread.user);
-                if (cThread.user.equals(user)) {
-                    userExists = true;
-                    break;
-                }
-            }
-            if (userExists){
-                //this won't write back but
-                System.out.println("this username is already chosen");
-                buffIn.write("This username is already chosen");
-                buffIn.flush();
-            } else {
-                System.out.println("User \"" + user + "\" has joined chat.");
-                send_all("Hi, I've joined the chat.");
-                cThreads.add(this);
-            }*/
         } catch (IOException e) {
             System.out.println("Error: Could not intialise socket stream:\n." + skt);
             e.printStackTrace();
@@ -160,16 +142,23 @@ public class ClientThread implements Runnable{
             try {
                 s = buffOut.readLine();
 
-                //socket connection dropped
+                // socket connection dropped
                 if (s == null) {
                     closeConnections(skt, buffIn, buffOut);
                     break;
                 }
 
-                if ((s != null) && (!s.isBlank()) && (s.charAt(0)) == '@') {
-                    whisperUser = s.substring(1, s.indexOf(' ')); //gets whisper username
+                if (!s.isBlank() && s.charAt(0) == '@') {
+                    if ((s.indexOf(' ') == -1) || (s.indexOf(' ') == 1)) {
+                        this.buffIn.write("<SERVER>: Usage \"@<username> <message>\"\n");
+                        this.buffIn.flush();
+                        continue;
+                    }
+                    // get whisper username
+                    whisperUser = s.substring(1, s.indexOf(' '));
                     restOfMsg = s.substring(s.indexOf(' ') + 1);
                     send_whisper(restOfMsg, whisperUser);
+
                 } else {
                     send_all(user + ": " + s);
                 }
