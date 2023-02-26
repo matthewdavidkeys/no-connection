@@ -14,6 +14,7 @@ public class GUIStart extends javax.swing.JFrame {
     String nickname;
     String port;
     String IP;
+    int maxCharCount = 19;
 
     /**
      * Creates new form GUIStart
@@ -21,6 +22,7 @@ public class GUIStart extends javax.swing.JFrame {
     public GUIStart() {
         initComponents();
         errorMessageLabel.setVisible(false);
+	    nicknameTextField.setTransferHandler(null);
     }
 
     /**
@@ -121,6 +123,11 @@ public class GUIStart extends javax.swing.JFrame {
         nicknameTextField.setForeground(new java.awt.Color(255, 255, 255));
         nicknameTextField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
         nicknameTextField.setCaretColor(new java.awt.Color(255, 255, 255));
+	  nicknameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nicknameTextFieldKeyTyped(evt);
+            }
+        });
 
         portTextField.setBackground(new java.awt.Color(0, 0, 0));
         portTextField.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
@@ -150,6 +157,11 @@ public class GUIStart extends javax.swing.JFrame {
         cancelButton.setForeground(new java.awt.Color(255, 255, 255));
         cancelButton.setText("Cancel");
         cancelButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
+	  cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
         errorMessageLabel.setBackground(new java.awt.Color(0, 0, 0));
         errorMessageLabel.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
@@ -235,10 +247,10 @@ public class GUIStart extends javax.swing.JFrame {
                 Socket skt = new Socket(IP, Integer.parseInt(port)); 
                 Client client = new Client(skt, nickname);
                 gui = new GUI(client);
-                client.setGUI(gui);  
-                client.readMessage(); 
                 gui.setVisible(true);
                 this.setVisible(false);
+                client.setGUI(gui);   
+                client.readMessage();
             } catch (Exception e) {
                 System.out.println("Incorrect IP or port...");
                 System.exit(1);
@@ -254,6 +266,16 @@ public class GUIStart extends javax.swing.JFrame {
             errorMessageLabel.setVisible(true);
         }
     }//GEN-LAST:event_connectButtonActionPerformed
+
+    private void nicknameTextFieldKeyTyped(java.awt.event.KeyEvent evt) {                                           
+        if (nicknameTextField.getText().length() >= maxCharCount || evt.getKeyChar() == ' ') {
+            evt.consume();
+        }
+    }
+
+private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        System.exit(0);
+    }
 
     /**
      * @param args the command line arguments
