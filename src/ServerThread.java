@@ -9,8 +9,10 @@ import java.util.concurrent.*;
 public class ServerThread implements Runnable{
 
     private CopyOnWriteArrayList<ServerThread> threadList;
-    private BufferedReader buffOut;
-    private BufferedWriter buffIn;
+    //private BufferedReader buffOut;
+    //private BufferedWriter buffIn;
+    private ObjectOutputStream objectOut;
+    private ObjectInputStream objectIn;
     private Socket skt;
     private String user;
 
@@ -27,15 +29,17 @@ public class ServerThread implements Runnable{
      * 
      * @param message String containing message to be sent.
      */
-    public void send_all(String message) {
+    public void send_all(Message message) {
         for (Iterator <ServerThread> iterator = threadList.iterator(); iterator.hasNext();) {
             try {
                 ServerThread cThread = iterator.next();
-                cThread.buffIn.write(message + "\n");
-                cThread.buffIn.flush();
+                cThread.objectOut.writeObject(message);
+                cThread.objectOut.flush();
+                //cThread.buffIn.write(message + "\n");
+                //cThread.buffIn.flush();
                  
             } catch (IOException e) {
-                closeConnections(skt, buffIn, buffOut);
+                closeConnections(skt, objectIn, objectOut);
             }
         }
     }
@@ -47,7 +51,7 @@ public class ServerThread implements Runnable{
      * @param usr Nickname of client to whisper message to.
      * @throws IOException Exception if there are any errors with socket.
      */
-    private void send_whisper(String message, String usr) throws IOException {
+    private void send_whisper(String msg, String usr) throws IOException {
         ServerThread recipient = null;
         // find object of recipient
         for (ServerThread cThread : threadList) {
@@ -58,21 +62,24 @@ public class ServerThread implements Runnable{
         }
         // invalid user
         if (recipient == null) {
-            buffIn.write("<SERVER>: User \"" + usr + "\" does not exist.\n");
-            buffIn.write("<SERVER>: Please use the command \"/online\" to see list of users.\n");
-            buffIn.flush();
+            objectOut.writeObject(new Message(Message.MessageType.MESSAGE, 
+                "<SERVER>: User \"" + usr + "\" does not exist.\n"));
+            objectOut.writeObject(new Message(Message.MessageType.MESSAGE, 
+                "<SERVER>: Please use the command \"/online\" to see list of users.\n"));
+            objectOut.flush();
             return;
         }
         // send to recipient and to yourself so your message displays too
         try {
-
-            buffIn.write(user + " [whisper]: " + message + "\n");
-            buffIn.flush();
-            recipient.buffIn.write(user + " [whisper]: " + message + "\n");
-            recipient.buffIn.flush();
+            Message message = new Message(Message.MessageType.MESSAGE,
+                user + " [whisper]: " + msg);
+            objectOut.writeObject(message);
+            objectOut.flush();
+            recipient.objectOut.writeObject(message);
+            recipient.objectOut.flush();
 
         } catch (IOException e) {
-            closeConnections(skt, buffIn, buffOut);
+            closeConnections(skt, objectIn, objectOut);
         } 
     }
 
@@ -83,19 +90,18 @@ public class ServerThread implements Runnable{
      * @param buffIn Buffer for writing outgoing messages to client side.
      * @param buffOut Buffer for reading messages from incoming server side.
      */
-    public void closeConnections(Socket skt, BufferedWriter buffIn, BufferedReader buffOut) {
+    public void closeConnections(Socket skt, ObjectInputStream objectIn, ObjectOutputStream objectOut) {
         // Remove user from list of connected clients.
         threadList.remove(this);
-        send_all("<SERVER>: \"" + user + "\" has left the chat");
+        send_all(new Message(Message.MessageType.LEAVE, "<SERVER>: \"" + user + "\" has left the chat\n"));
         // Close all object instances relating to disconnected user.
         try {
-
             if (skt != null) 
                 skt.close();
-            if (buffOut != null)
-                buffOut.close();
-            if (buffIn != null) 
-                buffIn.close();
+            if (objectIn != null)
+                objectIn.close();
+            if (objectOut != null) 
+                objectOut.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,13 +116,13 @@ public class ServerThread implements Runnable{
         try {
 
             // push number of clients onto buffer
-            this.buffIn.write(threadList.size() + "\n");
+            /*this.buffIn.write(threadList.size() + "\n");
             this.buffIn.flush();
             // push list of clients onto buffer
             for (ServerThread s: threadList) {
                 this.buffIn.write(s.user + "\n");
                 this.buffIn.flush();
-            }   
+            }   */
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,24 +135,28 @@ public class ServerThread implements Runnable{
      * @param that Socket of client/server connection.
      */
     public ServerThread(Socket that, CopyOnWriteArrayList<ServerThread> list) {
-        InputStreamReader in;
-        OutputStreamWriter out;
+        InputStream in;
+        OutputStream out;
 
         this.skt = that;
         threadList = list;
         try {
+            in = skt.getInputStream();
+            out = skt.getOutputStream();
+            objectOut = new ObjectOutputStream(new BufferedOutputStream(out));
+            objectOut.flush();
+            objectIn = new ObjectInputStream(new BufferedInputStream(in));
 
-            in = new InputStreamReader(skt.getInputStream());
-            out = new OutputStreamWriter(skt.getOutputStream());
-            buffIn = new BufferedWriter(out);
-            buffOut = new BufferedReader(in);   
             // get username from client
-            user = buffOut.readLine();
-
+            Message message = (Message) objectIn.readObject();
+            user = message.getMessage();
         } catch (IOException e) {
             System.out.println("Error: Could not intialise socket stream:\n." + skt);
             e.printStackTrace();
-            closeConnections(that, buffIn, buffOut);
+            closeConnections(that, objectIn, objectOut);
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 
@@ -158,41 +168,36 @@ public class ServerThread implements Runnable{
         String s, whisperUser, restOfMsg;
         while (true) {
             try {
-
-                s = buffOut.readLine();
+                Message message = (Message) objectIn.readObject();
+                s = message.getMessage();
                 // socket connection dropped
                 if (s == null) {
-                    closeConnections(skt, buffIn, buffOut);
+                    closeConnections(skt, objectIn, objectOut);
                     break;
                 }
 
-                if (!s.isBlank() && s.charAt(0) == '@') {
-                    if ((s.indexOf(' ') == -1) || (s.indexOf(' ') == 1)) {
-                        this.buffIn.write("<SERVER>: Usage \"@<username> <message>\"\n");
-                        this.buffIn.flush();
-                        continue;
-                    }
+                if (message.getMessageType() == Message.MessageType.WHISPER) {
                     // get whisper username
                     whisperUser = s.substring(1, s.indexOf(' '));
                     restOfMsg = s.substring(s.indexOf(' ') + 1);
                     send_whisper(restOfMsg, whisperUser);
 
-                } else if (s.equals("/online")) {
-                    this.buffIn.write("<SERVER>: #List of Clients Online#\n");
-                    this.buffIn.flush();
+                } else if (message.getMessageType() == Message.MessageType.ONLINE) {
+                    this.objectOut.writeObject(new Message(Message.MessageType.MESSAGE,
+                        "<SERVER>: #List of Clients Online#\n"));
+                    this.objectOut.flush();
                     // send list of clients to requesting client
                     getClients();
-                    this.buffIn.write("<SERVER:> ################\n");
-                    this.buffIn.flush();
-                    continue;
-
+                    this.objectOut.writeObject(new Message(Message.MessageType.MESSAGE, 
+                        "<SERVER:> ################\n"));
+                    this.objectOut.flush();
                 } else {
                     // send global message
-                    send_all(user + ": " + s);
+                    send_all(new Message(Message.MessageType.MESSAGE, user + ": " + s));
                 }
                 
-            } catch (IOException e) {
-                closeConnections(skt, buffIn, buffOut);
+            } catch (IOException | ClassNotFoundException e) {
+                closeConnections(skt, objectIn, objectOut);
                 break;
             }
         }

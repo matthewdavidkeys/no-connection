@@ -38,7 +38,8 @@ public class Server {
                 threadList.add(client);
                 Thread clientThread = new Thread(client);
                 clientThread.start();
-                client.send_all("<SERVER>: " + client.getNickname() + " has joined the chat");
+                client.send_all(new Message(Message.MessageType.JOIN, 
+                    "<SERVER>: " + client.getNickname() + " has joined the chat\n"));
 
            } catch (Exception e) {
                 break;

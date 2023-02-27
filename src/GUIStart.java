@@ -247,7 +247,7 @@ public class GUIStart extends javax.swing.JFrame {
                 Socket skt = new Socket(IP, Integer.parseInt(port)); 
                 Client client = new Client(skt, nickname);
                 gui = new GUI(client);
-		client.setGUI(gui);   
+		        client.setGUI(gui); 
                 client.readMessage();
                 gui.setVisible(true);
                 this.setVisible(false);

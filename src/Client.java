@@ -7,8 +7,10 @@ import javax.swing.*;
 public class Client {
 
     private Socket skt;
-    private BufferedWriter buffIn;
-    private BufferedReader buffOut;
+    //private BufferedWriter buffIn;
+    //private BufferedReader buffOut;
+    private ObjectInputStream objectIn;
+    private ObjectOutputStream objectOut;
     private String nickname;
     private static GUI gui;
 
@@ -16,30 +18,47 @@ public class Client {
      * Client constructor
      */
     public Client(Socket skt, String nickname) {
-        InputStreamReader in;
-        OutputStreamWriter out;
+        InputStream in;
+        OutputStream out;
         try {
             this.skt = skt;
             this.nickname = nickname;
             //Set input and output to input and output of given socket
-            in = new InputStreamReader(skt.getInputStream());
-            out = new OutputStreamWriter(skt.getOutputStream());
-            this.buffIn = new BufferedWriter(out);
-            this.buffOut = new BufferedReader(in);
-            buffIn.write(nickname + "\n");
-            buffIn.flush();
+            in = skt.getInputStream();
+            out = skt.getOutputStream();
+            objectOut = new ObjectOutputStream(new BufferedOutputStream(out));
+            objectOut.flush();
+            objectIn = new ObjectInputStream(new BufferedInputStream(in));
+    
+            //write nickname to stream
+            objectOut.writeObject(new Message(Message.MessageType.CLIENT, nickname));
+            objectOut.flush();
         } catch (IOException e) {
-            closeConnections(skt, buffIn, buffOut); 
+            closeConnections(skt, objectIn, objectOut); 
         }   
     }
 
     /*Sends user's nickname and message to thread to be displayed on server */
     public void messageToThread(String msg) {
+        Message message;
         try {
-            buffIn.write(msg);
-            buffIn.flush();
+            if (!msg.isBlank() && msg.charAt(0) == '@') {
+                if ((msg.indexOf(' ') == -1) || (msg.indexOf(' ') == 1)) {
+                    objectOut.writeObject(new Message(Message.MessageType.MESSAGE, 
+                    "<SERVER>: Usage \"@<username> <message>\"\n"));
+                    objectOut.flush();
+                    return;
+                }
+                message = new Message(Message.MessageType.WHISPER, msg);
+            } else if (msg.equals("/online\n")) {
+                message = new Message(Message.MessageType.ONLINE, msg);
+            } else {
+                message = new Message(Message.MessageType.MESSAGE, msg);
+            }
+            objectOut.writeObject(message);
+            objectOut.flush();
         } catch (IOException e) {
-            closeConnections(skt, buffIn, buffOut);
+            closeConnections(skt, objectIn, objectOut);
         }
     }
 
@@ -49,22 +68,24 @@ public class Client {
      */
     private class readMessagesRunnable implements Runnable {
         public void run() {
+            Message message;
             String msg;
             
             while (!skt.isClosed()) {
                 try {
-                    msg = buffOut.readLine();
+                    message = (Message) objectIn.readObject();
+                    msg = message.getMessage();
                     if (msg == null) {
                         gui.otherClientMessagesTextArea.append("<SERVER ERROR>: Server host program terminated/crashed.\n");
                         TimeUnit.SECONDS.sleep(3);
-                        closeConnections(skt, buffIn, buffOut);
+                        closeConnections(skt, objectIn, objectOut);
                         System.exit(0);
                         break;
                     }                 
-                    gui.otherClientMessagesTextArea.append(msg + "\n");
+                    gui.otherClientMessagesTextArea.append(msg);
 
-                } catch (IOException | InterruptedException e) {
-                    closeConnections(skt, buffIn, buffOut);
+                } catch (IOException | InterruptedException | ClassNotFoundException e) {
+                    closeConnections(skt, objectIn, objectOut);
                 }
             }
         }
@@ -83,18 +104,18 @@ public class Client {
      * Closes all sockets and buffers between client and client thread / server
      * Checks for null to avoid null pointer exceptions
      */
-    public void closeConnections(Socket skt, BufferedWriter buffIn, BufferedReader buffOut) {
+    public void closeConnections(Socket skt, ObjectInputStream objectIn, ObjectOutputStream objectOut) {
         try {
             if (skt != null) {
                 skt.close();
             }
 
-            if (buffIn != null) {
-                buffIn.close();
+            if (objectIn != null) {
+                objectIn.close();
             }
 
-            if (buffOut != null) {
-                buffOut.close();
+            if (objectOut != null) {
+                objectOut.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
