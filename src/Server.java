@@ -28,9 +28,8 @@ public class Server {
         sskt = new ServerSocket(portNum);
         System.out.println("Server started on port: " + portNum);
         
-        while (true) {
+        while (!sskt.isClosed()) {
            try {
-
                 // wait for someone to connect
                 skt = sskt.accept();
                 System.out.println("Client connected.");

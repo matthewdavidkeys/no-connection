@@ -39,23 +39,9 @@ public class Client {
     }
 
     /*Sends user's nickname and message to thread to be displayed on server */
-    public void messageToThread(String msg) {
-        Message message;
+    public void messageToThread(Message msg) {
         try {
-            if (!msg.isBlank() && msg.charAt(0) == '@') {
-                if ((msg.indexOf(' ') == -1) || (msg.indexOf(' ') == 1)) {
-                    objectOut.writeObject(new Message(Message.MessageType.MESSAGE, 
-                    "<SERVER>: Usage \"@<username> <message>\"\n"));
-                    objectOut.flush();
-                    return;
-                }
-                message = new Message(Message.MessageType.WHISPER, msg);
-            } else if (msg.equals("/online\n")) {
-                message = new Message(Message.MessageType.ONLINE, msg);
-            } else {
-                message = new Message(Message.MessageType.MESSAGE, msg);
-            }
-            objectOut.writeObject(message);
+            objectOut.writeObject(msg);
             objectOut.flush();
         } catch (IOException e) {
             closeConnections(skt, objectIn, objectOut);

@@ -7,7 +7,8 @@ public class Message implements Serializable {
         MESSAGE,
         WHISPER,
         CLIENT,
-        ONLINE
+        ONLINE,
+        SERVER
     }
 
     private MessageType type;

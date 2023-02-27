@@ -355,7 +355,15 @@ public class GUI extends javax.swing.JFrame {
     private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMessageButtonActionPerformed
         userMessage = userMessageTextArea.getText();
         userMessageTextArea.setText("");
-        client.messageToThread(userMessage + "\n");
+        Message message;
+        if (!userMessage.isBlank() && userMessage.charAt(0) == '@') {
+            message = new Message(Message.MessageType.WHISPER, userMessage + "\n");
+        } else if (userMessage.equals("/online")) {
+            message = new Message(Message.MessageType.ONLINE, userMessage);
+        } else {
+            message = new Message(Message.MessageType.MESSAGE, userMessage + "\n");
+        }
+        client.messageToThread(message);
 //        otherClientMessagesTextArea.append(userMessage + "\n");
     }//GEN-LAST:event_sendMessageButtonActionPerformed
 
@@ -368,7 +376,15 @@ public class GUI extends javax.swing.JFrame {
         if (evt.getKeyChar() == '\n') {
             userMessage = userMessageTextArea.getText();
             userMessageTextArea.setText("");
-            client.messageToThread(userMessage);
+            Message message;
+        if (!userMessage.isBlank() && userMessage.charAt(0) == '@') {
+            message = new Message(Message.MessageType.WHISPER, userMessage);
+        } else if (userMessage.equals("/online\n")) {
+            message = new Message(Message.MessageType.ONLINE, userMessage);
+        } else {
+            message = new Message(Message.MessageType.MESSAGE, userMessage);
+        }
+        client.messageToThread(message);
 //            otherClientMessagesTextArea.append(userMessage);
         }
     }//GEN-LAST:event_userMessageTextAreaKeyTyped

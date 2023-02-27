@@ -15,6 +15,7 @@ public class ServerThread implements Runnable{
     private ObjectInputStream objectIn;
     private Socket skt;
     private String user;
+    public Boolean loggingIn;
 
     /**
      * Procedure that returns client's nickname
@@ -62,13 +63,21 @@ public class ServerThread implements Runnable{
         }
         // invalid user
         if (recipient == null) {
-            objectOut.writeObject(new Message(Message.MessageType.MESSAGE, 
+            objectOut.writeObject(new Message(Message.MessageType.SERVER, 
                 "<SERVER>: User \"" + usr + "\" does not exist.\n"));
-            objectOut.writeObject(new Message(Message.MessageType.MESSAGE, 
+            objectOut.writeObject(new Message(Message.MessageType.SERVER, 
                 "<SERVER>: Please use the command \"/online\" to see list of users.\n"));
             objectOut.flush();
             return;
         }
+
+        if (recipient.getNickname().equals(user)) {
+            objectOut.writeObject(new Message(Message.MessageType.SERVER, 
+                "<SERVER>: Cannot whisper to yourself.\n"));
+            objectOut.flush();
+            return;
+        }
+
         // send to recipient and to yourself so your message displays too
         try {
             Message message = new Message(Message.MessageType.MESSAGE,
@@ -178,21 +187,29 @@ public class ServerThread implements Runnable{
 
                 if (message.getMessageType() == Message.MessageType.WHISPER) {
                     // get whisper username
+                    if ((s.indexOf(' ') == -1) || (s.indexOf(' ') == 1)) {
+                        this.objectOut.writeObject(new Message(Message.MessageType.SERVER,
+                        "<SERVER>: Usage \"@<username> <message>\"\n"));
+                        this.objectOut.flush();
+                        continue;
+                    }
                     whisperUser = s.substring(1, s.indexOf(' '));
                     restOfMsg = s.substring(s.indexOf(' ') + 1);
                     send_whisper(restOfMsg, whisperUser);
 
                 } else if (message.getMessageType() == Message.MessageType.ONLINE) {
-                    this.objectOut.writeObject(new Message(Message.MessageType.MESSAGE,
+                    objectOut.writeObject(new Message(Message.MessageType.SERVER,
                         "<SERVER>: #List of Clients Online#\n"));
-                    this.objectOut.flush();
+                    objectOut.flush();
                     // send list of clients to requesting client
                     getClients();
-                    this.objectOut.writeObject(new Message(Message.MessageType.MESSAGE, 
+                    objectOut.writeObject(new Message(Message.MessageType.SERVER, 
                         "<SERVER:> ################\n"));
-                    this.objectOut.flush();
-                } else {
-                    // send global message
+                    objectOut.flush();
+                } else if (message.getMessageType() == Message.MessageType.SERVER) {
+                    // send global message as server
+                    send_all(new Message(Message.MessageType.MESSAGE, s));
+                } else if (message.getMessageType() == Message.MessageType.MESSAGE) {
                     send_all(new Message(Message.MessageType.MESSAGE, user + ": " + s));
                 }
                 
