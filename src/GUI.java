@@ -21,10 +21,9 @@ public class GUI extends javax.swing.JFrame {
         sendMessageButton.setContentAreaFilled(false);
 
         String imageFolder = System.getProperty("user.dir") + "/../Images";
-        //String imageFolder = System.getProperty("user.dir") + "/Images";
+//        String imageFolder = System.getProperty("user.dir") + "/Images";
         sendMessageButton.setIcon(new javax.swing.ImageIcon(imageFolder + "/sendMessage.jpg"));
-        vulnerableGhost1.setIcon(new javax.swing.ImageIcon(imageFolder + "/vulnerableGhost.jpg"));
-        vulnerableGhost2.setIcon(new javax.swing.ImageIcon(imageFolder + "/vulnerableGhost.jpg"));
+        vulnerableGhost.setIcon(new javax.swing.ImageIcon(imageFolder + "/vulnerableGhost.jpg"));
         cherry.setIcon(new javax.swing.ImageIcon(imageFolder + "/cherry.jpg"));
         inky.setIcon(new javax.swing.ImageIcon(imageFolder + "/inky.jpg"));
         pinky.setIcon(new javax.swing.ImageIcon(imageFolder + "/pinky.jpg"));
@@ -37,7 +36,7 @@ public class GUI extends javax.swing.JFrame {
     /**
      * Code for the layout of the GUI
      */
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         GUILayeredPane = new javax.swing.JLayeredPane();
@@ -53,8 +52,7 @@ public class GUI extends javax.swing.JFrame {
         otherClientMessagesScrollPane = new javax.swing.JScrollPane();
         otherClientMessagesTextArea = new javax.swing.JTextArea();
         formattingLabel = new javax.swing.JLabel();
-        vulnerableGhost2 = new javax.swing.JLabel();
-        vulnerableGhost1 = new javax.swing.JLabel();
+        vulnerableGhost = new javax.swing.JLabel();
         inky = new javax.swing.JLabel();
         pinky = new javax.swing.JLabel();
         blinky = new javax.swing.JLabel();
@@ -188,12 +186,9 @@ public class GUI extends javax.swing.JFrame {
 
         formattingLabel.setBackground(new java.awt.Color(255, 255, 255));
 
-        vulnerableGhost2.setBackground(new java.awt.Color(0, 0, 0));
-        vulnerableGhost2.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\vulnerableGhost.jpg")); // NOI18N
-
-        vulnerableGhost1.setBackground(new java.awt.Color(0, 0, 0));
-        vulnerableGhost1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        vulnerableGhost1.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\vulnerableGhost.jpg")); // NOI18N
+        vulnerableGhost.setBackground(new java.awt.Color(0, 0, 0));
+        vulnerableGhost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        vulnerableGhost.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\vulnerableGhost.jpg")); // NOI18N
 
         inky.setBackground(new java.awt.Color(0, 0, 0));
         inky.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\inky.jpg")); // NOI18N
@@ -223,6 +218,7 @@ public class GUI extends javax.swing.JFrame {
         onlineClientsTextArea.setForeground(new java.awt.Color(255, 255, 255));
         onlineClientsTextArea.setLineWrap(true);
         onlineClientsTextArea.setRows(5);
+        onlineClientsTextArea.setText("/online to display online\nusers\n\n@username to whisper to a user");
         onlineClientsTextArea.setCaretColor(new java.awt.Color(255, 255, 255));
         onlineClientsScrollPane.setViewportView(onlineClientsTextArea);
 
@@ -247,35 +243,33 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(otherClientMessagesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(userMessagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(sendButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(vulnerableGhost2))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sendButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(nicknamePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addComponent(formattingLabel)
                                 .addGap(36, 36, 36)
-                                .addComponent(vulnerableGhost1)))
+                                .addComponent(vulnerableGhost)))
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addGap(47, 47, 47)
-                                .addComponent(cherry)
-                                .addGap(152, 152, 152)
-                                .addComponent(inky))
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addGap(109, 109, 109)
-                                .addComponent(pinky, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(164, 164, 164)
-                                .addComponent(clyde, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addGap(194, 194, 194)
-                                .addComponent(blinky, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(mainPanelLayout.createSequentialGroup()
+                                        .addGap(47, 47, 47)
+                                        .addComponent(cherry)
+                                        .addGap(152, 152, 152)
+                                        .addComponent(inky))
+                                    .addGroup(mainPanelLayout.createSequentialGroup()
+                                        .addGap(72, 72, 72)
+                                        .addComponent(pinky, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(201, 201, 201)
+                                        .addComponent(clyde, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(blinky, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(213, 213, 213)))
                         .addComponent(onlineClientsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -285,13 +279,16 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(clyde)
-                            .addComponent(pinky))
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(clyde))
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(pinky)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(blinky)
-                        .addGap(10, 10, 10)
+                        .addGap(6, 6, 6)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                                 .addComponent(cherry)
@@ -307,9 +304,9 @@ public class GUI extends javax.swing.JFrame {
                                         .addGap(88, 88, 88)
                                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(formattingLabel)
-                                            .addComponent(vulnerableGhost1)))
+                                            .addComponent(vulnerableGhost)))
                                     .addComponent(nicknamePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 37, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(onlineClientsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(otherClientMessagesPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -318,11 +315,9 @@ public class GUI extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(userMessagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(47, 47, 47)
-                        .addComponent(sendButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(vulnerableGhost2)))
-                .addGap(50, 50, 50))
+                        .addGap(66, 66, 66)
+                        .addComponent(sendButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(53, 53, 53))
         );
 
         GUILayeredPane.setLayer(mainPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -350,9 +345,9 @@ public class GUI extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMessageButtonActionPerformed
+    private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         userMessage = userMessageTextArea.getText();
         userMessageTextArea.setText("");
         Message message;
@@ -365,10 +360,10 @@ public class GUI extends javax.swing.JFrame {
         }
         client.messageToThread(message);
 //        otherClientMessagesTextArea.append(userMessage + "\n");
-    }//GEN-LAST:event_sendMessageButtonActionPerformed
+    }                                                 
 
-    private void userMessageTextAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_userMessageTextAreaKeyTyped
-        if (userMessageTextArea.getText().length() > maxCharCount) {
+    private void userMessageTextAreaKeyTyped(java.awt.event.KeyEvent evt) {                                             
+        if (userMessageTextArea.getText().length() > maxCharCount && evt.getKeyChar() != '\n') {
             evt.consume();
             String shortenedText = userMessageTextArea.getText().substring(0, maxCharCount);
             userMessageTextArea.setText(shortenedText);
@@ -387,7 +382,7 @@ public class GUI extends javax.swing.JFrame {
         client.messageToThread(message);
 //            otherClientMessagesTextArea.append(userMessage);
         }
-    }//GEN-LAST:event_userMessageTextAreaKeyTyped
+    }                                            
 
     /**
      * @param args the command line arguments
@@ -421,17 +416,15 @@ public class GUI extends javax.swing.JFrame {
 //        });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JLayeredPane GUILayeredPane;
     private javax.swing.JLabel blinky;
     private javax.swing.JLabel cherry;
     private javax.swing.JLabel clyde;
     private javax.swing.JLabel formattingLabel;
     private javax.swing.JLabel inky;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JLabel nicknameLabel;
+    public javax.swing.JLabel nicknameLabel;
     private javax.swing.JPanel nicknamePane;
     private javax.swing.JPanel onlineClientsPanel;
     private javax.swing.JScrollPane onlineClientsScrollPane;
@@ -445,7 +438,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel userMessagePanel;
     private javax.swing.JScrollPane userMessageScrollPane;
     private javax.swing.JTextArea userMessageTextArea;
-    private javax.swing.JLabel vulnerableGhost1;
-    private javax.swing.JLabel vulnerableGhost2;
-    // End of variables declaration//GEN-END:variables
+    private javax.swing.JLabel vulnerableGhost;
+    // End of variables declaration                   
 }
