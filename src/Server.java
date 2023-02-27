@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.*;
 /**
  * Simple server that opens a port and listens for connecting clients.
  * Idea for structure:
@@ -23,6 +24,10 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         ServerThread client;        
+        ObjectInputStream objectIn;
+        ObjectOutputStream objectOut;
+        ArrayList<String> users = new ArrayList<String>();
+        Boolean unique;
 
         // listen for connecting clients while active
         sskt = new ServerSocket(portNum);
@@ -32,17 +37,50 @@ public class Server {
            try {
                 // wait for someone to connect
                 skt = sskt.accept();
-                System.out.println("Client connected.");
-                client = new ServerThread(skt, threadList);
+                objectOut = new ObjectOutputStream(skt.getOutputStream());
+                objectOut.flush();
+                objectIn = new ObjectInputStream(skt.getInputStream());
+                client = new ServerThread(skt, threadList, objectIn, objectOut);
+
+                for (ServerThread thread: threadList) {
+                    users.add(thread.getNickname());
+                }
+
+                //get username from client
+                Message message = (Message) objectIn.readObject();
+                String user = message.getMessage();
+                while (true) {
+                    if (checkUnique(user, users)) {
+                        objectOut.writeObject(new Message(Message.MessageType.UNIQUENESS, "unique"));
+                        objectOut.flush();
+                        unique = true;
+                        break;
+                    }
+                    objectOut.writeObject(new Message(Message.MessageType.UNIQUENESS, "not unique"));
+                    objectOut.flush();
+                    unique = false;
+                    break;
+                }
+                if (unique == false) continue;
+                System.out.println("Here");
+                client.setNickname(user);
                 threadList.add(client);
                 Thread clientThread = new Thread(client);
                 clientThread.start();
-                client.send_all(new Message(Message.MessageType.JOIN, 
+                client.send_all(new Message(Message.MessageType.SERVER, 
                     "<SERVER>: " + client.getNickname() + " has joined the chat\n"));
-
            } catch (Exception e) {
                 break;
            } 
         }
+    }
+
+    private static Boolean checkUnique(String user, ArrayList<String> users) {
+        for (String s: users) {
+            if (s.equals(user)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

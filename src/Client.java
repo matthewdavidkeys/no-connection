@@ -17,18 +17,20 @@ public class Client {
     /*
      * Client constructor
      */
-    public Client(Socket skt, String nickname) {
+    public Client(Socket skt, String nickname, ObjectInputStream objectIn, ObjectOutputStream objectOut) {
         InputStream in;
         OutputStream out;
         try {
             this.skt = skt;
             this.nickname = nickname;
             //Set input and output to input and output of given socket
-            in = skt.getInputStream();
+            /*in = skt.getInputStream();
             out = skt.getOutputStream();
             objectOut = new ObjectOutputStream(new BufferedOutputStream(out));
             objectOut.flush();
-            objectIn = new ObjectInputStream(new BufferedInputStream(in));
+            objectIn = new ObjectInputStream(new BufferedInputStream(in));*/
+            this.objectIn = objectIn;
+            this.objectOut = objectOut;
     
             //write nickname to stream
             objectOut.writeObject(new Message(Message.MessageType.CLIENT, nickname));

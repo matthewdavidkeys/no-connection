@@ -25,6 +25,10 @@ public class ServerThread implements Runnable{
         return this.user;
     }
 
+    public void setNickname(String user) {
+        this.user = user;
+    }
+
     /**
      * Procedure that sends message to all clients that are connected to the server.
      * 
@@ -124,14 +128,14 @@ public class ServerThread implements Runnable{
     public void getClients() {
         try {
 
-            // push number of clients onto buffer
-            /*this.buffIn.write(threadList.size() + "\n");
-            this.buffIn.flush();
+            //push number of clients onto buffer
+            objectOut.writeObject(new Message(Message.MessageType.ONLINE, threadList.size() + "\n"));
+            objectOut.flush();
             // push list of clients onto buffer
             for (ServerThread s: threadList) {
-                this.buffIn.write(s.user + "\n");
-                this.buffIn.flush();
-            }   */
+                objectOut.writeObject(new Message(Message.MessageType.ONLINE, s.user + "\n"));
+                objectOut.flush();
+            } 
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,22 +147,43 @@ public class ServerThread implements Runnable{
      * 
      * @param that Socket of client/server connection.
      */
-    public ServerThread(Socket that, CopyOnWriteArrayList<ServerThread> list) {
+    public ServerThread(Socket that, CopyOnWriteArrayList<ServerThread> list, ObjectInputStream objectIn,
+        ObjectOutputStream objectOut) {
         InputStream in;
         OutputStream out;
+        ArrayList<String> usernames = new ArrayList<String>();
 
         this.skt = that;
         threadList = list;
-        try {
+        this.objectOut = objectOut;
+        this.objectIn = objectIn;
+        /*try {
+            loggingIn = true;
+            for (ServerThread thread: threadList) {
+                usernames.add(thread.getNickname());
+            }
             in = skt.getInputStream();
             out = skt.getOutputStream();
             objectOut = new ObjectOutputStream(new BufferedOutputStream(out));
             objectOut.flush();
             objectIn = new ObjectInputStream(new BufferedInputStream(in));
-
             // get username from client
             Message message = (Message) objectIn.readObject();
             user = message.getMessage();
+            while (loggingIn) {
+                if (checkUnique(user, usernames)) {
+                    loggingIn = false;
+                    objectOut.writeObject(new Message(Message.MessageType.MESSAGE, "unique"));
+                    objectOut.flush();
+                    break;
+                }
+                objectOut.writeObject(new Message(Message.MessageType.MESSAGE, "not unique"));
+                objectOut.flush();
+                Message msg = (Message) objectIn.readObject();
+                System.out.println(msg.getMessage());
+                user = msg.getMessage();
+            }
+            loggingIn = false;
         } catch (IOException e) {
             System.out.println("Error: Could not intialise socket stream:\n." + skt);
             e.printStackTrace();
@@ -166,7 +191,16 @@ public class ServerThread implements Runnable{
         } catch (ClassNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }*/
+    }
+
+    private Boolean checkUnique(String user, ArrayList<String> users) {
+        for (String s: users) {
+            if (s.equals(user)) {
+                return false;
+            }
         }
+        return true;
     }
 
     /**
@@ -211,6 +245,8 @@ public class ServerThread implements Runnable{
                     send_all(new Message(Message.MessageType.MESSAGE, s));
                 } else if (message.getMessageType() == Message.MessageType.MESSAGE) {
                     send_all(new Message(Message.MessageType.MESSAGE, user + ": " + s));
+                } else if (message.getMessageType() == Message.MessageType.JOIN) {
+                    send_all(new Message(Message.MessageType.SERVER, s));
                 }
                 
             } catch (IOException | ClassNotFoundException e) {

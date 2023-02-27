@@ -1,4 +1,5 @@
 import java.net.*;
+import java.io.*;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -241,17 +242,22 @@ public class GUIStart extends javax.swing.JFrame {
             nickname = nicknameTextField.getText();
             port = portTextField.getText();
             IP = IPTextField.getText();
-            GUI gui;
 
             try {
                 Socket skt = new Socket(IP, Integer.parseInt(port)); 
-                Client client = new Client(skt, nickname);
-                gui = new GUI(client);
-		client.setGUI(gui); 
-                client.readMessage();
-		gui.nicknameLabel.setText(nickname);
-                gui.setVisible(true);
-                this.setVisible(false);
+                ObjectOutputStream objectOut = new ObjectOutputStream(skt.getOutputStream());
+                objectOut.flush();
+                ObjectInputStream objectIn = new ObjectInputStream(skt.getInputStream());
+                objectOut.writeObject(new Message(Message.MessageType.CLIENT, nickname));
+                objectOut.flush();
+                Message message = (Message) objectIn.readObject();
+                System.out.println(message.getMessage());
+                if (message.getMessage().equals("unique")) {
+                    finishSetup(skt, nickname, objectIn, objectOut);
+                } else {
+                    errorMessageLabel.setText("Username already taken");
+                    errorMessageLabel.setVisible(true);
+                }
             } catch (Exception e) {
                 System.out.println("Incorrect IP or port...");
                 System.exit(1);
@@ -272,6 +278,17 @@ public class GUIStart extends javax.swing.JFrame {
         if (nicknameTextField.getText().length() >= maxCharCount || evt.getKeyChar() == ' ') {
             evt.consume();
         }
+    }
+
+    private void finishSetup(Socket skt, String nickname, ObjectInputStream objectIn, ObjectOutputStream objectOut) {
+        GUI gui;
+        Client client = new Client(skt, nickname, objectIn, objectOut);
+        gui = new GUI(client);
+        client.setGUI(gui); 
+        client.readMessage();
+        gui.nicknameLabel.setText(nickname);
+        gui.setVisible(true);
+        this.setVisible(false);
     }
 
 private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
