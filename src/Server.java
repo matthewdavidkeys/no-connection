@@ -69,6 +69,13 @@ public class Server {
         }
     }
 
+    /**
+     * Helper method that checks the uniqueness of a given username.
+     * 
+     * @param user String of username to be checked.
+     * @param users String ArrayList of all current usernames.
+     * @return True or false depending whether the username exists or not.
+     */
     private static Boolean checkUnique(String user, ArrayList<String> users) {
         for (String s: users) {
             if (s.equals(user)) {

@@ -22,6 +22,11 @@ public class ServerThread implements Runnable{
         return this.user;
     }
 
+    /**
+     * Setter method that sets the user String.
+     * 
+     * @param user String containing username.
+     */
     public void setNickname(String user) {
         this.user = user;
     }
