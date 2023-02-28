@@ -27,7 +27,6 @@ public class Server {
         ObjectInputStream objectIn;
         ObjectOutputStream objectOut;
         ArrayList<String> users = new ArrayList<String>();
-        Boolean unique;
 
         // listen for connecting clients while active
         sskt = new ServerSocket(portNum);
@@ -49,20 +48,14 @@ public class Server {
                 //get username from client
                 Message message = (Message) objectIn.readObject();
                 String user = message.getMessage();
-                while (true) {
-                    if (checkUnique(user, users)) {
-                        objectOut.writeObject(new Message(Message.MessageType.UNIQUENESS, "unique"));
-                        objectOut.flush();
-                        unique = true;
-                        break;
-                    }
+                if (!checkUnique(user, users)) {
                     objectOut.writeObject(new Message(Message.MessageType.UNIQUENESS, "not unique"));
                     objectOut.flush();
-                    unique = false;
-                    break;
+                    continue;
                 }
-                if (unique == false) continue;
-                System.out.println("Here");
+                objectOut.writeObject(new Message(Message.MessageType.UNIQUENESS, "unique"));
+                objectOut.flush();
+
                 client.setNickname(user);
                 threadList.add(client);
                 Thread clientThread = new Thread(client);

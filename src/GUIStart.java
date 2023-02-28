@@ -257,6 +257,7 @@ public class GUIStart extends javax.swing.JFrame {
                 } else {
                     errorMessageLabel.setText("Username already taken");
                     errorMessageLabel.setVisible(true);
+                    skt.close();
                 }
             } catch (Exception e) {
                 System.out.println("Incorrect IP or port...");
