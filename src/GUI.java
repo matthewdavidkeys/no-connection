@@ -359,7 +359,6 @@ public class GUI extends javax.swing.JFrame {
             message = new Message(Message.MessageType.MESSAGE, userMessage + "\n");
         }
         client.messageToThread(message);
-//        otherClientMessagesTextArea.append(userMessage + "\n");
     }                                                 
 
     private void userMessageTextAreaKeyTyped(java.awt.event.KeyEvent evt) {                                             
@@ -380,7 +379,6 @@ public class GUI extends javax.swing.JFrame {
             message = new Message(Message.MessageType.MESSAGE, userMessage);
         }
         client.messageToThread(message);
-//            otherClientMessagesTextArea.append(userMessage);
         }
     }                                            
 

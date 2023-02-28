@@ -9,13 +9,10 @@ import java.util.concurrent.*;
 public class ServerThread implements Runnable{
 
     private CopyOnWriteArrayList<ServerThread> threadList;
-    //private BufferedReader buffOut;
-    //private BufferedWriter buffIn;
     private ObjectOutputStream objectOut;
     private ObjectInputStream objectIn;
     private Socket skt;
     private String user;
-    public Boolean loggingIn;
 
     /**
      * Procedure that returns client's nickname
@@ -40,9 +37,6 @@ public class ServerThread implements Runnable{
                 ServerThread cThread = iterator.next();
                 cThread.objectOut.writeObject(message);
                 cThread.objectOut.flush();
-                //cThread.buffIn.write(message + "\n");
-                //cThread.buffIn.flush();
-                 
             } catch (IOException e) {
                 closeConnections(skt, objectIn, objectOut);
             }
@@ -149,58 +143,11 @@ public class ServerThread implements Runnable{
      */
     public ServerThread(Socket that, CopyOnWriteArrayList<ServerThread> list, ObjectInputStream objectIn,
         ObjectOutputStream objectOut) {
-        InputStream in;
-        OutputStream out;
-        ArrayList<String> usernames = new ArrayList<String>();
 
         this.skt = that;
         threadList = list;
         this.objectOut = objectOut;
         this.objectIn = objectIn;
-        /*try {
-            loggingIn = true;
-            for (ServerThread thread: threadList) {
-                usernames.add(thread.getNickname());
-            }
-            in = skt.getInputStream();
-            out = skt.getOutputStream();
-            objectOut = new ObjectOutputStream(new BufferedOutputStream(out));
-            objectOut.flush();
-            objectIn = new ObjectInputStream(new BufferedInputStream(in));
-            // get username from client
-            Message message = (Message) objectIn.readObject();
-            user = message.getMessage();
-            while (loggingIn) {
-                if (checkUnique(user, usernames)) {
-                    loggingIn = false;
-                    objectOut.writeObject(new Message(Message.MessageType.MESSAGE, "unique"));
-                    objectOut.flush();
-                    break;
-                }
-                objectOut.writeObject(new Message(Message.MessageType.MESSAGE, "not unique"));
-                objectOut.flush();
-                Message msg = (Message) objectIn.readObject();
-                System.out.println(msg.getMessage());
-                user = msg.getMessage();
-            }
-            loggingIn = false;
-        } catch (IOException e) {
-            System.out.println("Error: Could not intialise socket stream:\n." + skt);
-            e.printStackTrace();
-            closeConnections(that, objectIn, objectOut);
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
-    }
-
-    private Boolean checkUnique(String user, ArrayList<String> users) {
-        for (String s: users) {
-            if (s.equals(user)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**

@@ -1,34 +1,24 @@
 import java.io.*;
 import java.net.*;
-import java.util.*;
 import java.util.concurrent.TimeUnit;
-import javax.swing.*;
 
 public class Client {
 
     private Socket skt;
-    //private BufferedWriter buffIn;
-    //private BufferedReader buffOut;
     private ObjectInputStream objectIn;
     private ObjectOutputStream objectOut;
-    private String nickname;
     private static GUI gui;
 
-    /*
+    /**
      * Client constructor
+     * @param skt Socket of client/server connection
+     * @param nickname Nickname of user
+     * @param objectIn ObjectInputStream that reads Message objects from input stream
+     * @param objectOut ObjectOutputStream that writes Message objects to output stream
      */
     public Client(Socket skt, String nickname, ObjectInputStream objectIn, ObjectOutputStream objectOut) {
-        InputStream in;
-        OutputStream out;
         try {
             this.skt = skt;
-            this.nickname = nickname;
-            //Set input and output to input and output of given socket
-            /*in = skt.getInputStream();
-            out = skt.getOutputStream();
-            objectOut = new ObjectOutputStream(new BufferedOutputStream(out));
-            objectOut.flush();
-            objectIn = new ObjectInputStream(new BufferedInputStream(in));*/
             this.objectIn = objectIn;
             this.objectOut = objectOut;
     
@@ -40,7 +30,11 @@ public class Client {
         }   
     }
 
-    /*Sends user's nickname and message to thread to be displayed on server */
+    /**
+     * Sends user's nickname and message to thread to be displayed on server
+     * @param msg Message to send to ServerThread
+     */
+
     public void messageToThread(Message msg) {
         try {
             objectOut.writeObject(msg);
@@ -50,9 +44,8 @@ public class Client {
         }
     }
 
-    /*
-     * Runnable class run by a thread to constantly read
-     * messages from buffer to display to user
+    /**
+     * Runnable class run by a thread to constantly read messages from buffer to display to user
      */
     private class readMessagesRunnable implements Runnable {
         public void run() {
@@ -76,10 +69,19 @@ public class Client {
                     closeConnections(skt, objectIn, objectOut);
                 }
             }
+            gui.otherClientMessagesTextArea.append("<SERVER ERROR>: Server host program terminated/crashed.\n");
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            closeConnections(skt, objectIn, objectOut);
+            System.exit(0);
         }
     }
 
-    /*Reads all messages on server 
+    /**
+     * Reads all messages on server 
      * Uses separate thread to not block program
     */
     public void readMessage() {
@@ -88,9 +90,12 @@ public class Client {
         thread.start();    
     }
 
-    /*
+    /**
      * Closes all sockets and buffers between client and client thread / server
      * Checks for null to avoid null pointer exceptions
+     * @param skt Socket to be closed
+     * @param objectIn ObjectInputStream to be closed
+     * @param objectOut ObjectOutputStream to be closed
      */
     public void closeConnections(Socket skt, ObjectInputStream objectIn, ObjectOutputStream objectOut) {
         try {
