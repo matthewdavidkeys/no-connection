@@ -1,42 +1,24 @@
 
 public class GUI extends javax.swing.JFrame {
 
-    public String userMessage = "";
-    public String port;
-    public String nickname;
-    public Client client;
-    int maxCharCount = 5000;
+    private String userMessage = "";
+    private Client client;
+    private final int maxCharCount = 5000;
+    private String imageFolder;
 
     /**
-     * Creates new form GUI
+     * Creates a new GUI linked with the current client connected.
      *
      * @param client The client currently connected
      */
     public GUI(Client client) {
-//    public GUI() {
         this.client = client;
         initComponents();
-
-        sendMessageButton.setOpaque(false);
-        sendMessageButton.setContentAreaFilled(false);
-
-        String imageFolder = System.getProperty("user.dir") + "/../Images";
-//        String imageFolder = System.getProperty("user.dir") + "/Images";
-        sendMessageButton.setIcon(new javax.swing.ImageIcon(imageFolder + "/sendMessage.jpg"));
-        vulnerableGhost.setIcon(new javax.swing.ImageIcon(imageFolder + "/vulnerableGhost.jpg"));
-        cherry.setIcon(new javax.swing.ImageIcon(imageFolder + "/cherry.jpg"));
-        inky.setIcon(new javax.swing.ImageIcon(imageFolder + "/inky.jpg"));
-        pinky.setIcon(new javax.swing.ImageIcon(imageFolder + "/pinky.jpg"));
-        blinky.setIcon(new javax.swing.ImageIcon(imageFolder + "/blinky.jpg"));
-        clyde.setIcon(new javax.swing.ImageIcon(imageFolder + "/clyde.jpg"));
-
     }
 
-    @SuppressWarnings("unchecked")
     /**
-     * Code for the layout of the GUI
-     */
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+     * Process to initialize all the components for the GUI.
+     */                  
     private void initComponents() {
 
         GUILayeredPane = new javax.swing.JLayeredPane();
@@ -61,6 +43,24 @@ public class GUI extends javax.swing.JFrame {
         onlineClientsPanel = new javax.swing.JPanel();
         onlineClientsScrollPane = new javax.swing.JScrollPane();
         onlineClientsTextArea = new javax.swing.JTextArea();
+
+	  /**
+	   * Determines if the user is working on Linux or Windows
+	   * and sets the correct file path for the images
+	   */
+	  if (System.getProperty("os.name").contains("Windows")) {
+            imageFolder = System.getProperty("user.dir") + "/Images";
+        } else if (System.getProperty("os.name").contains("Linux")) {
+            imageFolder = System.getProperty("user.dir") + "/../Images";
+        }
+
+        sendMessageButton.setIcon(new javax.swing.ImageIcon(imageFolder + "/sendMessage.jpg"));
+        vulnerableGhost.setIcon(new javax.swing.ImageIcon(imageFolder + "/vulnerableGhost.jpg"));
+        cherry.setIcon(new javax.swing.ImageIcon(imageFolder + "/cherry.jpg"));
+        inky.setIcon(new javax.swing.ImageIcon(imageFolder + "/inky.jpg"));
+        pinky.setIcon(new javax.swing.ImageIcon(imageFolder + "/pinky.jpg"));
+        blinky.setIcon(new javax.swing.ImageIcon(imageFolder + "/blinky.jpg"));
+        clyde.setIcon(new javax.swing.ImageIcon(imageFolder + "/clyde.jpg"));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,7 +129,6 @@ public class GUI extends javax.swing.JFrame {
         sendButtonPanel.setBackground(new java.awt.Color(0, 0, 0));
         sendButtonPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
 
-        sendMessageButton.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\sendMessage.jpg")); // NOI18N
         sendMessageButton.setFocusPainted(false);
         sendMessageButton.setFocusable(false);
         sendMessageButton.addActionListener(new java.awt.event.ActionListener() {
@@ -137,6 +136,8 @@ public class GUI extends javax.swing.JFrame {
                 sendMessageButtonActionPerformed(evt);
             }
         });
+        sendMessageButton.setOpaque(false);
+        sendMessageButton.setContentAreaFilled(false);
 
         javax.swing.GroupLayout sendButtonPanelLayout = new javax.swing.GroupLayout(sendButtonPanel);
         sendButtonPanel.setLayout(sendButtonPanelLayout);
@@ -188,24 +189,16 @@ public class GUI extends javax.swing.JFrame {
 
         vulnerableGhost.setBackground(new java.awt.Color(0, 0, 0));
         vulnerableGhost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        vulnerableGhost.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\vulnerableGhost.jpg")); // NOI18N
 
         inky.setBackground(new java.awt.Color(0, 0, 0));
-        inky.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\inky.jpg")); // NOI18N
 
         pinky.setBackground(new java.awt.Color(0, 0, 0));
-        pinky.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\pinky.jpg")); // NOI18N
 
         blinky.setBackground(new java.awt.Color(0, 0, 0));
-        blinky.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\blinky.jpg")); // NOI18N
-        blinky.setText("jLabel1");
 
         clyde.setBackground(new java.awt.Color(0, 0, 0));
-        clyde.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\clyde.jpg")); // NOI18N
-        clyde.setText("jLabel1");
 
         cherry.setBackground(new java.awt.Color(0, 0, 0));
-        cherry.setIcon(new javax.swing.ImageIcon("D:\\UNI\\Third Year\\CS 313\\JavaApplication26\\Images\\cherry.jpg")); // NOI18N
 
         onlineClientsPanel.setBackground(new java.awt.Color(0, 0, 0));
         onlineClientsPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
@@ -345,8 +338,13 @@ public class GUI extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
+    }          
 
+    /**
+     * Gets the user's message and sends it to Client.java on button press.
+     *
+     * @param evt event generated by button press
+     */
     private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         userMessage = userMessageTextArea.getText();
         userMessageTextArea.setText("");
@@ -361,13 +359,19 @@ public class GUI extends javax.swing.JFrame {
         client.messageToThread(message);
     }                                                 
 
+    /**
+     * Gets the user's message and sends it to Client.java when the enter key is pressed.
+     * Limits the user to only send a message which has less characters than the @maxCharCount.
+     *
+     * @param evt event generated by key press
+     */
     private void userMessageTextAreaKeyTyped(java.awt.event.KeyEvent evt) {                                             
         if (userMessageTextArea.getText().length() > maxCharCount && evt.getKeyChar() != '\n') {
             evt.consume();
             String shortenedText = userMessageTextArea.getText().substring(0, maxCharCount);
             userMessageTextArea.setText(shortenedText);
         }
-        if (evt.getKeyChar() == '\n') {
+        if (evt.getKeyChar() == '\n' && !evt.isShiftDown()) {
             userMessage = userMessageTextArea.getText();
             userMessageTextArea.setText("");
             Message message;
@@ -382,39 +386,7 @@ public class GUI extends javax.swing.JFrame {
         }
     }                                            
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new GUI().setVisible(true);
-//            }
-//        });
-    }
-
-    // Variables declaration - do not modify                     
+    // Variables declaration
     private javax.swing.JLayeredPane GUILayeredPane;
     private javax.swing.JLabel blinky;
     private javax.swing.JLabel cherry;
