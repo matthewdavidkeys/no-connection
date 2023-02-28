@@ -26,7 +26,7 @@ public class Server {
         ServerThread client;        
         ObjectInputStream objectIn;
         ObjectOutputStream objectOut;
-        ArrayList<String> users = new ArrayList<String>();
+        ArrayList<String> users;
 
         // listen for connecting clients while active
         sskt = new ServerSocket(portNum);
@@ -41,6 +41,7 @@ public class Server {
                 objectIn = new ObjectInputStream(skt.getInputStream());
                 client = new ServerThread(skt, threadList, objectIn, objectOut);
 
+                users  = new ArrayList<String>();
                 for (ServerThread thread: threadList) {
                     users.add(thread.getNickname());
                 }
