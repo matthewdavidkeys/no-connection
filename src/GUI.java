@@ -1,4 +1,8 @@
-
+import java.awt.*;
+/**
+ * A simple main GUI customized with icons and will
+ * allow users to send and receive messages
+ */
 public class GUI extends javax.swing.JFrame {
 
     private String userMessage = "";
@@ -64,16 +68,16 @@ public class GUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        GUILayeredPane.setBackground(new java.awt.Color(255, 255, 255));
+        GUILayeredPane.setBackground(new Color(255, 255, 255));
 
-        mainPanel.setBackground(new java.awt.Color(0, 0, 0));
+        mainPanel.setBackground(new Color(0, 0, 0));
 
-        nicknamePane.setBackground(new java.awt.Color(0, 0, 0));
-        nicknamePane.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
+        nicknamePane.setBackground(new Color(0, 0, 0));
+        nicknamePane.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
 
-        nicknameLabel.setBackground(new java.awt.Color(0, 0, 0));
+        nicknameLabel.setBackground(new Color(0, 0, 0));
         nicknameLabel.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        nicknameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        nicknameLabel.setForeground(new Color(255, 255, 255));
         nicknameLabel.setText("Nickname");
 
         javax.swing.GroupLayout nicknamePaneLayout = new javax.swing.GroupLayout(nicknamePane);
@@ -87,20 +91,20 @@ public class GUI extends javax.swing.JFrame {
             .addComponent(nicknameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 68, Short.MAX_VALUE)
         );
 
-        userMessagePanel.setBackground(new java.awt.Color(0, 0, 0));
-        userMessagePanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
+        userMessagePanel.setBackground(new Color(0, 0, 0));
+        userMessagePanel.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
 
         userMessageScrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        userMessageTextArea.setBackground(new java.awt.Color(0, 0, 0));
+        userMessageTextArea.setBackground(new Color(0, 0, 0));
         userMessageTextArea.setColumns(20);
         userMessageTextArea.setFont(new java.awt.Font("Yu Gothic UI", 0, 17)); // NOI18N
-        userMessageTextArea.setForeground(new java.awt.Color(255, 255, 255));
+        userMessageTextArea.setForeground(new Color(255, 255, 255));
         userMessageTextArea.setLineWrap(true);
         userMessageTextArea.setRows(5);
         userMessageTextArea.setWrapStyleWord(true);
         userMessageTextArea.setBorder(null);
-        userMessageTextArea.setCaretColor(new java.awt.Color(255, 255, 255));
+        userMessageTextArea.setCaretColor(new Color(255, 255, 255));
         userMessageTextArea.setMargin(new java.awt.Insets(5, 5, 5, 5));
         userMessageTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -126,8 +130,8 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        sendButtonPanel.setBackground(new java.awt.Color(0, 0, 0));
-        sendButtonPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
+        sendButtonPanel.setBackground(new Color(0, 0, 0));
+        sendButtonPanel.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
 
         sendMessageButton.setFocusPainted(false);
         sendMessageButton.setFocusable(false);
@@ -150,21 +154,21 @@ public class GUI extends javax.swing.JFrame {
             .addComponent(sendMessageButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
         );
 
-        otherClientMessagesPanel.setBackground(new java.awt.Color(0, 0, 0));
-        otherClientMessagesPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
+        otherClientMessagesPanel.setBackground(new Color(0, 0, 0));
+        otherClientMessagesPanel.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
 
         otherClientMessagesScrollPane.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         otherClientMessagesTextArea.setEditable(false);
-        otherClientMessagesTextArea.setBackground(new java.awt.Color(0, 0, 0));
+        otherClientMessagesTextArea.setBackground(new Color(0, 0, 0));
         otherClientMessagesTextArea.setColumns(20);
         otherClientMessagesTextArea.setFont(new java.awt.Font("Yu Gothic UI", 0, 17)); // NOI18N
-        otherClientMessagesTextArea.setForeground(new java.awt.Color(255, 255, 255));
+        otherClientMessagesTextArea.setForeground(new Color(255, 255, 255));
         otherClientMessagesTextArea.setLineWrap(true);
         otherClientMessagesTextArea.setRows(5);
         otherClientMessagesTextArea.setWrapStyleWord(true);
         otherClientMessagesTextArea.setBorder(null);
-        otherClientMessagesTextArea.setCaretColor(new java.awt.Color(255, 255, 255));
+        otherClientMessagesTextArea.setCaretColor(new Color(255, 255, 255));
         otherClientMessagesTextArea.setMargin(new java.awt.Insets(5, 5, 5, 5));
         otherClientMessagesScrollPane.setViewportView(otherClientMessagesTextArea);
 
@@ -185,34 +189,34 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        formattingLabel.setBackground(new java.awt.Color(255, 255, 255));
+        formattingLabel.setBackground(new Color(255, 255, 255));
 
-        vulnerableGhost.setBackground(new java.awt.Color(0, 0, 0));
+        vulnerableGhost.setBackground(new Color(0, 0, 0));
         vulnerableGhost.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
 
-        inky.setBackground(new java.awt.Color(0, 0, 0));
+        inky.setBackground(new Color(0, 0, 0));
 
-        pinky.setBackground(new java.awt.Color(0, 0, 0));
+        pinky.setBackground(new Color(0, 0, 0));
 
-        blinky.setBackground(new java.awt.Color(0, 0, 0));
+        blinky.setBackground(new Color(0, 0, 0));
 
-        clyde.setBackground(new java.awt.Color(0, 0, 0));
+        clyde.setBackground(new Color(0, 0, 0));
 
-        cherry.setBackground(new java.awt.Color(0, 0, 0));
+        cherry.setBackground(new Color(0, 0, 0));
 
-        onlineClientsPanel.setBackground(new java.awt.Color(0, 0, 0));
-        onlineClientsPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-        onlineClientsPanel.setForeground(new java.awt.Color(255, 255, 255));
+        onlineClientsPanel.setBackground(new Color(0, 0, 0));
+        onlineClientsPanel.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
+        onlineClientsPanel.setForeground(new Color(255, 255, 255));
 
         onlineClientsTextArea.setEditable(false);
-        onlineClientsTextArea.setBackground(new java.awt.Color(0, 0, 0));
+        onlineClientsTextArea.setBackground(new Color(0, 0, 0));
         onlineClientsTextArea.setColumns(20);
         onlineClientsTextArea.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        onlineClientsTextArea.setForeground(new java.awt.Color(255, 255, 255));
+        onlineClientsTextArea.setForeground(new Color(255, 255, 255));
         onlineClientsTextArea.setLineWrap(true);
         onlineClientsTextArea.setRows(5);
         onlineClientsTextArea.setText("/online to display online\nusers\n\n@username to whisper to a user");
-        onlineClientsTextArea.setCaretColor(new java.awt.Color(255, 255, 255));
+        onlineClientsTextArea.setCaretColor(new Color(255, 255, 255));
         onlineClientsScrollPane.setViewportView(onlineClientsTextArea);
 
         javax.swing.GroupLayout onlineClientsPanelLayout = new javax.swing.GroupLayout(onlineClientsPanel);
