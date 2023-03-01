@@ -126,10 +126,6 @@ public class ServerThread implements Runnable{
      */
     public void getClients() {
         try {
-
-            //push number of clients onto buffer
-            objectOut.writeObject(new Message(Message.MessageType.ONLINE, threadList.size() + "\n"));
-            objectOut.flush();
             // push list of clients onto buffer
             for (ServerThread s: threadList) {
                 objectOut.writeObject(new Message(Message.MessageType.ONLINE, s.user + "\n"));
@@ -185,12 +181,12 @@ public class ServerThread implements Runnable{
 
                 } else if (message.getMessageType() == Message.MessageType.ONLINE) {
                     objectOut.writeObject(new Message(Message.MessageType.SERVER,
-                        "<SERVER>: #List of Clients Online#\n"));
+                        "<SERVER>: #List of Clients Online (" + threadList.size() + ")#\n"));
                     objectOut.flush();
                     // send list of clients to requesting client
                     getClients();
                     objectOut.writeObject(new Message(Message.MessageType.SERVER, 
-                        "<SERVER:> ################\n"));
+                        "<SERVER:> #################\n"));
                     objectOut.flush();
                 } else if (message.getMessageType() == Message.MessageType.SERVER) {
                     // send global message as server
