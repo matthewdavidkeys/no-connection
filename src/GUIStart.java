@@ -248,7 +248,6 @@ public class GUIStart extends javax.swing.JFrame {
                 objectOut.writeObject(new Message(Message.MessageType.CLIENT, nickname));
                 objectOut.flush();
                 Message message = (Message) objectIn.readObject();
-                System.out.println(message.getMessage());
                 if (message.getMessage().equals("unique")) {
                     finishSetup(skt, nickname, objectIn, objectOut);
                 } else {
@@ -257,8 +256,8 @@ public class GUIStart extends javax.swing.JFrame {
                     skt.close();
                 }
             } catch (Exception e) {
-                System.out.println("Incorrect IP or port...");
-                System.exit(1);
+                errorMessageLabel.setText("Incorrect IP or port...");
+		    errorMessageLabel.setVisible(true);
             }
         } else if (nicknameTextField.getText().equals("")) {
             errorMessageLabel.setText("Please enter a valid nickname");
