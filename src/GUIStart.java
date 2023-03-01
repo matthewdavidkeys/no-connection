@@ -243,7 +243,6 @@ public class GUIStart extends javax.swing.JFrame {
                 objectOut.writeObject(new Message(Message.MessageType.CLIENT, nickname));
                 objectOut.flush();
                 Message message = (Message) objectIn.readObject();
-                System.out.println(message.getMessage());
                 if (message.getMessage().equals("unique")) {
                     finishSetup(skt, nickname, objectIn, objectOut);
                 } else {
