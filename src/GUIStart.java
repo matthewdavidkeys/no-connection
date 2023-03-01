@@ -1,6 +1,11 @@
 import java.net.*;
 import java.io.*;
+import java.awt.*;
 
+/**
+ * A simple starting GUI that will get the user's desired
+ * nickname as well as port and IP they want to connect to.
+ */
 public class GUIStart extends javax.swing.JFrame {
     
     private String nickname;
@@ -36,16 +41,16 @@ public class GUIStart extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        mainPanel.setBackground(new java.awt.Color(0, 0, 0));
-        mainPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-        mainPanel.setForeground(new java.awt.Color(255, 255, 255));
+        mainPanel.setBackground(new Color(0, 0, 0));
+        mainPanel.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
+        mainPanel.setForeground(new Color(255, 255, 255));
 
-        nicknameLabelPanel.setBackground(new java.awt.Color(0, 0, 0));
-        nicknameLabelPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
+        nicknameLabelPanel.setBackground(new Color(0, 0, 0));
+        nicknameLabelPanel.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
 
-        nicknameLabel.setBackground(new java.awt.Color(0, 0, 0));
+        nicknameLabel.setBackground(new Color(0, 0, 0));
         nicknameLabel.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        nicknameLabel.setForeground(new java.awt.Color(255, 255, 255));
+        nicknameLabel.setForeground(new Color(255, 255, 255));
         nicknameLabel.setText("Nickname:");
 
         javax.swing.GroupLayout nicknameLabelPanelLayout = new javax.swing.GroupLayout(nicknameLabelPanel);
@@ -61,12 +66,12 @@ public class GUIStart extends javax.swing.JFrame {
             .addComponent(nicknameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        portLabelPanel.setBackground(new java.awt.Color(0, 0, 0));
-        portLabelPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
+        portLabelPanel.setBackground(new Color(0, 0, 0));
+        portLabelPanel.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
 
-        portLabel.setBackground(new java.awt.Color(0, 0, 0));
+        portLabel.setBackground(new Color(0, 0, 0));
         portLabel.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        portLabel.setForeground(new java.awt.Color(255, 255, 255));
+        portLabel.setForeground(new Color(255, 255, 255));
         portLabel.setText("Port:");
 
         javax.swing.GroupLayout portLabelPanelLayout = new javax.swing.GroupLayout(portLabelPanel);
@@ -82,13 +87,13 @@ public class GUIStart extends javax.swing.JFrame {
             .addComponent(portLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
         );
 
-        IPLabelPanel.setBackground(new java.awt.Color(0, 0, 0));
-        IPLabelPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-        IPLabelPanel.setForeground(new java.awt.Color(255, 255, 255));
+        IPLabelPanel.setBackground(new Color(0, 0, 0));
+        IPLabelPanel.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
+        IPLabelPanel.setForeground(new Color(255, 255, 255));
 
-        IPLabel.setBackground(new java.awt.Color(51, 51, 51));
+        IPLabel.setBackground(new Color(51, 51, 51));
         IPLabel.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        IPLabel.setForeground(new java.awt.Color(255, 255, 255));
+        IPLabel.setForeground(new Color(255, 255, 255));
         IPLabel.setText("IP:");
 
         javax.swing.GroupLayout IPLabelPanelLayout = new javax.swing.GroupLayout(IPLabelPanel);
@@ -104,11 +109,11 @@ public class GUIStart extends javax.swing.JFrame {
             .addComponent(IPLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
         );
 
-        nicknameTextField.setBackground(new java.awt.Color(0, 0, 0));
+        nicknameTextField.setBackground(new Color(0, 0, 0));
         nicknameTextField.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        nicknameTextField.setForeground(new java.awt.Color(255, 255, 255));
-        nicknameTextField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-        nicknameTextField.setCaretColor(new java.awt.Color(255, 255, 255));
+        nicknameTextField.setForeground(new Color(255, 255, 255));
+        nicknameTextField.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
+        nicknameTextField.setCaretColor(new Color(255, 255, 255));
 	  nicknameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 nicknameTextFieldKeyTyped(evt);
@@ -116,44 +121,44 @@ public class GUIStart extends javax.swing.JFrame {
         });
 	  nicknameTextField.setTransferHandler(null);
 
-        portTextField.setBackground(new java.awt.Color(0, 0, 0));
+        portTextField.setBackground(new Color(0, 0, 0));
         portTextField.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        portTextField.setForeground(new java.awt.Color(255, 255, 255));
-        portTextField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-        portTextField.setCaretColor(new java.awt.Color(255, 255, 255));
+        portTextField.setForeground(new Color(255, 255, 255));
+        portTextField.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
+        portTextField.setCaretColor(new Color(255, 255, 255));
 
-        IPTextField.setBackground(new java.awt.Color(0, 0, 0));
+        IPTextField.setBackground(new Color(0, 0, 0));
         IPTextField.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        IPTextField.setForeground(new java.awt.Color(255, 255, 255));
-        IPTextField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
-        IPTextField.setCaretColor(new java.awt.Color(255, 255, 255));
+        IPTextField.setForeground(new Color(255, 255, 255));
+        IPTextField.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
+        IPTextField.setCaretColor(new Color(255, 255, 255));
 
-        connectButton.setBackground(new java.awt.Color(0, 0, 0));
+        connectButton.setBackground(new Color(0, 0, 0));
         connectButton.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        connectButton.setForeground(new java.awt.Color(255, 255, 255));
+        connectButton.setForeground(new Color(255, 255, 255));
         connectButton.setText("Connect");
-        connectButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
+        connectButton.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
         connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connectButtonActionPerformed(evt);
             }
         });
 
-        cancelButton.setBackground(new java.awt.Color(0, 0, 0));
+        cancelButton.setBackground(new Color(0, 0, 0));
         cancelButton.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        cancelButton.setForeground(new java.awt.Color(255, 255, 255));
+        cancelButton.setForeground(new Color(255, 255, 255));
         cancelButton.setText("Cancel");
-        cancelButton.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
+        cancelButton.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
 	  cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
             }
         });
 
-        errorMessageLabel.setBackground(new java.awt.Color(0, 0, 0));
+        errorMessageLabel.setBackground(new Color(0, 0, 0));
         errorMessageLabel.setFont(new java.awt.Font("Yu Gothic UI", 0, 24)); // NOI18N
-        errorMessageLabel.setForeground(new java.awt.Color(255, 255, 255));
-        errorMessageLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 255), 4, true));
+        errorMessageLabel.setForeground(new Color(255, 255, 255));
+        errorMessageLabel.setBorder(new javax.swing.border.LineBorder(new Color(0, 0, 255), 4, true));
         errorMessageLabel.setVisible(false);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -251,8 +256,8 @@ public class GUIStart extends javax.swing.JFrame {
                     skt.close();
                 }
             } catch (Exception e) {
-                System.out.println("Incorrect IP or port...");
-                System.exit(1);
+                errorMessageLabel.setText("Incorrect IP or port...");
+		    errorMessageLabel.setVisible(true);
             }
         } else if (nicknameTextField.getText().equals("")) {
             errorMessageLabel.setText("Please enter a valid nickname");
